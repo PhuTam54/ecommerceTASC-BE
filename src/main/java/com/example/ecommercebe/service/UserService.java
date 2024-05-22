@@ -1,7 +1,7 @@
 package com.example.ecommercebe.service;
 
-import com.example.ecommercebe.entity.User;
-import com.example.ecommercebe.repository.UserRepository;
+import com.example.ecommercebe.entities.User;
+import com.example.ecommercebe.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -19,17 +19,17 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public Collection<User> findByName(String name) {
-        return userRepository.findByName(name);
-    }
-
-    public Collection<User> findByNameNative(String name) {
-        return userRepository.findByNameNative(name);
-    }
-
-    public List<User> findUserByEmails(Set<String> emails) {
-        return userRepository.findUserByEmails(emails);
-    }
+//    public Collection<User> findByName(String name) {
+//        return userRepository.findByName(name);
+//    }
+//
+//    public Collection<User> findByNameNative(String name) {
+//        return userRepository.findByNameNative(name);
+//    }
+//
+//    public List<User> findUserByEmails(Set<String> emails) {
+//        return userRepository.findUserByEmails(emails);
+//    }
 
 //    public Collection<UserDTO> getUserAndCart() {
 //        return userRepository.getUserAndCart();

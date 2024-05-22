@@ -1,9 +1,9 @@
 package com.example.ecommercebe.controller;
 
-import com.example.ecommercebe.entity.CartItem;
-import com.example.ecommercebe.entity.CartItemId;
-import com.example.ecommercebe.entity.ShoppingCart;
-import com.example.ecommercebe.entity.dtos.request.CartItemRequest;
+import com.example.ecommercebe.entities.CartItem;
+import com.example.ecommercebe.entities.CartItemId;
+import com.example.ecommercebe.entities.ShoppingCart;
+import com.example.ecommercebe.dto.request.CartItemRequest;
 import com.example.ecommercebe.service.CartItemService;
 import com.example.ecommercebe.service.CartService;
 import org.springframework.http.ResponseEntity;

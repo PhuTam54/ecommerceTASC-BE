@@ -1,6 +1,6 @@
 package com.example.ecommercebe.controller;
 
-import com.example.ecommercebe.entity.User;
+import com.example.ecommercebe.entities.User;
 import com.example.ecommercebe.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,17 +27,17 @@ public class UserController {
         return ResponseEntity.ok(users);
     }
 
-    @GetMapping(path = "/name")
-    public ResponseEntity<Collection<User>> getUsersByName(@RequestParam(name = "name") String name) {
-        Collection<User> users = userService.findByName(name);
-        return ResponseEntity.ok(users);
-    }
-
-    @GetMapping(path = "/name/native")
-    public ResponseEntity<Collection<User>> getUsersByNameNative(@RequestParam(name = "name") String name) {
-        Collection<User> users = userService.findByNameNative(name);
-        return ResponseEntity.ok(users);
-    }
+//    @GetMapping(path = "/name")
+//    public ResponseEntity<Collection<User>> getUsersByName(@RequestParam(name = "name") String name) {
+//        Collection<User> users = userService.findByName(name);
+//        return ResponseEntity.ok(users);
+//    }
+//
+//    @GetMapping(path = "/name/native")
+//    public ResponseEntity<Collection<User>> getUsersByNameNative(@RequestParam(name = "name") String name) {
+//        Collection<User> users = userService.findByNameNative(name);
+//        return ResponseEntity.ok(users);
+//    }
 
 //    @GetMapping(path = "/user-cart")
 //    public ResponseEntity<List<UserDTO>> getUserAndCart() {

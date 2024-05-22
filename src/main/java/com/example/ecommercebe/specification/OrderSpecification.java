@@ -1,11 +1,11 @@
 package com.example.ecommercebe.specification;
 
-import com.example.ecommercebe.entity.OrderDetail;
-import com.example.ecommercebe.entity.Product;
-import com.example.ecommercebe.entity.User;
+import com.example.ecommercebe.entities.OrderDetail;
+import com.example.ecommercebe.entities.Product;
+import com.example.ecommercebe.entities.User;
 import org.springframework.data.jpa.domain.Specification;
 
-import javax.persistence.criteria.*;
+import jakarta.persistence.criteria.*;
 import java.time.LocalDateTime;
 
 public class OrderSpecification implements Specification<Order> {
