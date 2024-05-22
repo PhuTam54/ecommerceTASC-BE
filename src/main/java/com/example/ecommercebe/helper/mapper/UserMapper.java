@@ -1,7 +1,7 @@
 package com.example.ecommercebe.helper.mapper;
 
-import com.example.ecommercebe.entity.User;
-import com.example.ecommercebe.obj.UserDTO;
+import com.example.ecommercebe.entities.User;
+import com.example.ecommercebe.dto.response.UserDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

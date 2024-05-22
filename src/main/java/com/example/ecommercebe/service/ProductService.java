@@ -1,7 +1,7 @@
 package com.example.ecommercebe.service;
 
-import com.example.ecommercebe.entity.Product;
-import com.example.ecommercebe.repository.ProductRepository;
+import com.example.ecommercebe.entities.Product;
+import com.example.ecommercebe.repositories.ProductRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

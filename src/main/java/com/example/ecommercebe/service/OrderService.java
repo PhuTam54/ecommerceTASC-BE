@@ -1,8 +1,8 @@
 package com.example.ecommercebe.service;
 
-import com.example.ecommercebe.entity.Order;
+import com.example.ecommercebe.entities.Order;
 import com.example.ecommercebe.helper.LocalDatetimeConverter;
-import com.example.ecommercebe.repository.OrderRepository;
+import com.example.ecommercebe.repositories.OrderRepository;
 import com.example.ecommercebe.specification.OrderSpecification;
 import com.example.ecommercebe.specification.SearchBody;
 import com.example.ecommercebe.specification.SearchCriteria;

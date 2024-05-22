@@ -1,14 +1,14 @@
 package com.example.ecommercebe.service;
 
-import com.example.ecommercebe.entity.CartItem;
-import com.example.ecommercebe.entity.CartItemId;
-import com.example.ecommercebe.entity.Product;
-import com.example.ecommercebe.entity.ShoppingCart;
-import com.example.ecommercebe.entity.dtos.request.CartItemRequest;
-import com.example.ecommercebe.repository.CartItemRepository;
-import com.example.ecommercebe.repository.ProductRepository;
-import com.example.ecommercebe.repository.ShoppingCartRepository;
-import com.example.ecommercebe.repository.UserRepository;
+import com.example.ecommercebe.entities.CartItem;
+import com.example.ecommercebe.entities.CartItemId;
+import com.example.ecommercebe.entities.Product;
+import com.example.ecommercebe.entities.ShoppingCart;
+import com.example.ecommercebe.dto.request.CartItemRequest;
+import com.example.ecommercebe.repositories.CartItemRepository;
+import com.example.ecommercebe.repositories.ProductRepository;
+import com.example.ecommercebe.repositories.ShoppingCartRepository;
+import com.example.ecommercebe.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -68,7 +68,7 @@ public class CartService {
         } else {
             ShoppingCart newShoppingCart = new ShoppingCart();
             Set<CartItem> cartItems = new LinkedHashSet<>();
-            newShoppingCart.setUser(userRepository.findById(cartItem.getUserId()).get());
+            newShoppingCart.setUser(userRepository.findById(Long.valueOf(cartItem.getUserId())).get());
             CartItem newCartItem = createNewCartItem(cartItem, newShoppingCart);
             newShoppingCart.setTotal(newCartItem.getTotal());
             cartItems.add(newCartItem);

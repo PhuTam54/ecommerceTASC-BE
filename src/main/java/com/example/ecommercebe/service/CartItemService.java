@@ -1,7 +1,7 @@
 package com.example.ecommercebe.service;
 
-import com.example.ecommercebe.entity.CartItem;
-import com.example.ecommercebe.repository.CartItemRepository;
+import com.example.ecommercebe.entities.CartItem;
+import com.example.ecommercebe.repositories.CartItemRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
