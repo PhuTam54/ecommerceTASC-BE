@@ -8,15 +8,13 @@ import java.util.List;
 
 @Service
 public interface CategoryService {
-    List<Category> getAllCategory();
-    Category getCategoryById(Integer id);
+    List<CategoryDTO> getAllCategory();
+    CategoryDTO getCategoryById(Integer id);
     void addCategory(CategoryDTO categoryDTO);
     void updateCategory(Integer id, CategoryDTO categoryDTO);
     void deleteCategory(Integer id);
-    Category convertToEntity(CategoryDTO categoryDTO);
     Category convertToEntityId(Integer id, CategoryDTO categoryDTO);
-    List<Category> getCategoryByName(String name);
-    List<Category> getCategoryByParent(Category parent);
-    List<Category> getCategoryByParentIsNull();
-    List<Category> getCategoryByParentIsNotNull();
+    List<CategoryDTO> getCategoryByName(String name);
+    List<CategoryDTO> getCategoryByParent(Category parent);
+    List<CategoryDTO> getCategoryByParentIsNull();
 }
