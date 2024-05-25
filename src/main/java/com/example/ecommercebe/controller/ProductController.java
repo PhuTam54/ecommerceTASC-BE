@@ -1,8 +1,11 @@
 package com.example.ecommercebe.controller;
 import com.example.ecommercebe.service.ProductService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+@Tag(name = "Product", description = "Product Controller")
 @CrossOrigin()
 @RestController
 @RequestMapping(path = "api/v1/products")

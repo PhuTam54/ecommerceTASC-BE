@@ -3,12 +3,14 @@ package com.example.ecommercebe.controller;
 import com.example.ecommercebe.entities.CartItem;
 import com.example.ecommercebe.entities.CartItemId;
 import com.example.ecommercebe.entities.ShoppingCart;
-import com.example.ecommercebe.dto.request.CartItemRequest;
+import com.example.ecommercebe.models.requests.CartItemRequest;
 import com.example.ecommercebe.service.CartItemService;
 import com.example.ecommercebe.service.CartService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(name = "Cart", description = "Cart Controller")
 @CrossOrigin()
 @RestController
 @RequestMapping("api/v1/carts")

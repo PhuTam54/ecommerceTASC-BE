@@ -12,6 +12,7 @@ import com.example.ecommercebe.security.jwt.JwtUtils;
 import com.example.ecommercebe.security.service.TokenBlacklistService;
 import com.example.ecommercebe.security.service.UserDetailsImpl;
 import com.example.ecommercebe.statics.enums.ERole;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Tag(name = "Auth", description = "Auth Controller")
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")

@@ -4,7 +4,7 @@ import com.example.ecommercebe.entities.CartItem;
 import com.example.ecommercebe.entities.CartItemId;
 import com.example.ecommercebe.entities.Product;
 import com.example.ecommercebe.entities.ShoppingCart;
-import com.example.ecommercebe.dto.request.CartItemRequest;
+import com.example.ecommercebe.models.requests.CartItemRequest;
 import com.example.ecommercebe.repositories.CartItemRepository;
 import com.example.ecommercebe.repositories.ProductRepository;
 import com.example.ecommercebe.repositories.ShoppingCartRepository;

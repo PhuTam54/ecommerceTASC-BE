@@ -174,13 +174,11 @@ public class OrderSeeder implements CommandLineRunner {
                 continue;
             }
             String password = "123456";
-            StringBuilder accountName = new StringBuilder();
-            accountName.append(firstName).append(" ").append(lastName);
             String address = faker.address().fullAddress();
             StringBuilder email = new StringBuilder();
             email.append(firstName.toLowerCase(Locale.ROOT)).append(lastName.toLowerCase(Locale.ROOT)).append("@gmail.com");
             String phone = faker.phoneNumber().cellPhone();
-            User user = new User(username.toString(), password, accountName.toString(), address, email.toString(), phone);
+            User user = new User(username.toString(), password, address, email.toString(), phone);
             users.add(user);
         }
         userRepository.saveAll(users);

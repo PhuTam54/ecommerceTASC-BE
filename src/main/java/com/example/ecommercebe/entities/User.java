@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import jakarta.persistence.*;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -35,6 +36,10 @@ public class User {
     private String email;
     @Column(name = "phone_number")
     private String phoneNumber;
+    @Column(name = "date_of_birth")
+    private String dateOfBirth;
+    @Column(name = "gender")
+    private String gender;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(	name = "user_roles",
@@ -55,12 +60,23 @@ public class User {
         this.password = password;
     }
 
-    public User(String userName, String password, String accountName, String address, String email, String phoneNumber) {
+    public User(String userName, String password, String address, String email, String phoneNumber) {
         this.username = userName;
         this.password = password;
         this.address = address;
         this.email = email;
         this.phoneNumber = phoneNumber;
+    }
+
+    public User(String username, String password, String address, String email, String phoneNumber, String dateOfBirth, String gender, Set<Role> roles) {
+        this.username = username;
+        this.password = password;
+        this.address = address;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.dateOfBirth = dateOfBirth;
+        this.gender = gender;
+        this.roles = roles;
     }
 
     @Override

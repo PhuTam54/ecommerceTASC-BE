@@ -2,9 +2,11 @@ package com.example.ecommercebe.controller;
 
 import com.example.ecommercebe.service.OrderService;
 import com.example.ecommercebe.specification.SearchBody;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(name = "Order", description = "Order Controller")
 @CrossOrigin()
 @RestController
 @RequestMapping("api/v1/orders")
