@@ -1,16 +1,20 @@
 package com.example.ecommercebe.controller;
 
 import com.example.ecommercebe.entities.User;
+import com.example.ecommercebe.models.requests.UserRequest;
 import com.example.ecommercebe.service.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.List;
 
+@Tag(name = "User", description = "User Controller")
+@CrossOrigin
 @RestController
 @RequestMapping(path = "api/v1/users")
 public class UserController {
@@ -22,9 +26,38 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = userService.findAll();
-        return ResponseEntity.ok(users);
+    public ResponseEntity<?> getAllUsers(@RequestParam(name = "page") int page, @RequestParam(name = "limit") int limit) {
+        return ResponseEntity.ok(userService.findAll(PageRequest.of(page - 1, limit)));
+    }
+
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable(name = "id") Long id) {
+        User user = userService.findById(id);
+        return ResponseEntity.ok(user);
+    }
+
+    @GetMapping(path = "/username")
+    public ResponseEntity<User> getUserByUsername(@RequestParam(name = "username") String username) {
+        User user = userService.findByUsername(username);
+        return ResponseEntity.ok(user);
+    }
+
+    @PostMapping
+    public ResponseEntity<User> createUser(@RequestBody UserRequest userRequest) {
+        User newUser = userService.createUser(userRequest);
+        return ResponseEntity.ok(newUser);
+    }
+
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable(name = "id") Long id, @RequestBody UserRequest userRequest) {
+        User updatedUser = userService.updateUser(id, userRequest);
+        return ResponseEntity.ok(updatedUser);
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable(name = "id") Long id) {
+        userService.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 
 //    @GetMapping(path = "/name")

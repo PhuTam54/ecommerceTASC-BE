@@ -1,4 +1,7 @@
-package com.example.ecommercebe.Controller;
+package com.example.ecommercebe.controller;
+import com.example.ecommercebe.service.ProductService;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.data.domain.PageRequest;
 
 import com.example.ecommercebe.DTO.ProductDTO;
 import com.example.ecommercebe.Service.ProductService;
@@ -17,7 +20,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-
+@Tag(name = "Product", description = "Product Controller")
+@CrossOrigin()
 @Valid
 @RestController
 @RequestMapping("/api/product")
