@@ -6,9 +6,12 @@ import com.example.ecommercebe.service.FeedbackService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/feedback")
@@ -44,15 +47,20 @@ public class FeedbackController {
         return ResponseEntity.ok(feedbackDTO);
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<?> addFeedback(@RequestBody FeedbackDTO feedbackDTO) {
-        try {
-            feedbackService.addFeedback(feedbackDTO);
-            return ResponseEntity.ok("Feedback added successfully");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error adding feedback: " + e.getMessage());
+    @PostMapping("/{productId}/{clinicId}/{userId}/add")
+    public ResponseEntity<?> addFeedback( @PathVariable("product_id") long productId,
+                                          @PathVariable("clinic_id") long clinicId,
+                                          @PathVariable("user_id") long userId,@RequestBody FeedbackDTO feedbackDTO, BindingResult result) {
+        if (result.hasErrors()) {
+            Map<String, String> errors = result.getFieldErrors().stream()
+                    .collect(Collectors.toMap(fieldError -> fieldError.getField(), fieldError -> fieldError.getDefaultMessage()));
+            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
         }
+        feedbackDTO.setProduct_id(productId);
+        feedbackDTO.setClinic_id(clinicId);
+        feedbackDTO.setUser_id(userId);
+        feedbackService.addFeedback(feedbackDTO);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping("/update/{id}")
