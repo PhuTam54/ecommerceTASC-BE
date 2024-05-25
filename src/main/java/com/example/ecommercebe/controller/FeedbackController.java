@@ -48,9 +48,9 @@ public class FeedbackController {
     }
 
     @PostMapping("/{productId}/{clinicId}/{userId}/add")
-    public ResponseEntity<?> addFeedback( @PathVariable("product_id") long productId,
-                                          @PathVariable("clinic_id") long clinicId,
-                                          @PathVariable("user_id") long userId,@RequestBody FeedbackDTO feedbackDTO, BindingResult result) {
+    public ResponseEntity<?> addFeedback( @PathVariable("productId") long productId,
+                                          @PathVariable("clinicId") long clinicId,
+                                          @PathVariable("userId") long userId,@RequestBody FeedbackDTO feedbackDTO, BindingResult result) {
         if (result.hasErrors()) {
             Map<String, String> errors = result.getFieldErrors().stream()
                     .collect(Collectors.toMap(fieldError -> fieldError.getField(), fieldError -> fieldError.getDefaultMessage()));
