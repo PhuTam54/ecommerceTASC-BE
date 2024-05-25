@@ -3,7 +3,7 @@ package com.example.ecommercebe.controller;
 import com.example.ecommercebe.dto.ClinicDTO;
 import com.example.ecommercebe.entities.Clinic;
 import com.example.ecommercebe.exception.EntityNotFoundException;
-import com.example.ecommercebe.service.ClinicService;
+import com.example.ecommercebe.service.impl.ClinicServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,11 +15,11 @@ import java.util.List;
 public class ClinicController {
 
     @Autowired
-    private ClinicService clinicService;
+    private ClinicServiceImpl clinicService;
 
     @GetMapping
     public ResponseEntity<List<Clinic>> getAllClinics() {
-        List<Clinic> clinics = clinicService.getAllClinic();
+        List<Clinic> clinics = clinicService.getAllClinics();
         return ResponseEntity.ok(clinics);
     }
 
