@@ -66,5 +66,13 @@ public class GlobalExceptionHandler {
         errorResponse.put("message", ex.getMessage());
         return errorResponse;
     }
+
+    @ExceptionHandler(FeedbackNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Map<String, String> handleFeedbackNotFoundException(FeedbackNotFoundException ex) {
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("message", ex.getMessage());
+        return errorResponse;
+    }
     
 }
