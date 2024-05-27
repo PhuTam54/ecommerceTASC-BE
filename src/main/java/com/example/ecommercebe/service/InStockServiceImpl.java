@@ -137,12 +137,13 @@ public class InStockServiceImpl implements InStockService{
         if(product.isPresent()) {
             product1 = product.get();
         } else throw new RuntimeException("Không tìm thấy InStock với product_id" + product_id);
-        inStock.setProduct(product1);
+
         Optional<Clinic> clinic = clinicRepository.findById(clinic_id);
         Clinic clinic1;
         if(clinic.isPresent()) {
             clinic1 = clinic.get();
         } else throw new RuntimeException("Không tìm thấy InStock với clinic_id" + clinic_id);
+        inStock.setProduct(product1);
         inStock.setClinic(clinic1);
         inStock.setLastUpdated(LocalDateTime.now());
         inStockRepository.save(inStock);

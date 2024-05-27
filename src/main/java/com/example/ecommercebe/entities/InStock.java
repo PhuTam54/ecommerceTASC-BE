@@ -14,24 +14,20 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@IdClass(StockId.class)
 @Table(name = "InStock")
 public class InStock {
 
-    @Id
-    private Long productId;
+    @EmbeddedId
+    private StockId stockId;
 
-    @Id
-    private Long clinicId;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("productId")
-    @JoinColumn(name = "ProductID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ProductId",referencedColumnName = "id")
     private Product product;
 
-    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("clinicId")
-    @JoinColumn(name = "ClinicID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ClinicID",referencedColumnName = "id")
     private Clinic clinic;
 
     @Column(name = "StockQuantity")
@@ -42,5 +38,4 @@ public class InStock {
 
     @Column(name = "StockStatus")
     private InStockStatus stockStatus;
-
 }
