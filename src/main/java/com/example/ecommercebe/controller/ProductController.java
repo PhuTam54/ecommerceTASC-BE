@@ -3,6 +3,11 @@ package com.example.ecommercebe.controller;
 import com.example.ecommercebe.dto.ProductDTO;
 import com.example.ecommercebe.service.ProductService;
 import com.example.ecommercebe.entities.Product;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.data.domain.PageRequest;
+
+import com.example.ecommercebe.DTO.ProductDTO;
+import com.example.ecommercebe.Service.ProductService;
 import com.example.ecommercebe.exception.NotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +22,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Tag(name = "Product", description = "Product Controller")
+@CrossOrigin()
 @Valid
 @RestController
 @RequestMapping("/api/product")
 public class ProductController {
     @Autowired
     private ProductService productService;
-
     @GetMapping("/getAll")
     public List<Product> getAllProducts() {
         return productService.getAllProducts();
