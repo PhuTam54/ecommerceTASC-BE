@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 @Repository
-public interface StockInRepository extends JpaRepository<StockIn, long>, JpaSpecificationExecutor<StockIn>{
+public interface StockInRepository extends JpaRepository<StockIn, Long>, JpaSpecificationExecutor<StockIn>{
     List<StockIn> findStockInByClinic(Clinic clinic);
     List<StockIn> findStockInByProduct(Product product);
     List<StockIn> findStockInByProductAndClinic(Product product, Clinic clinic);
