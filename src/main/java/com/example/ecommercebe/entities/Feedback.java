@@ -48,4 +48,5 @@ public class Feedback {
 
     @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Feedback> children;
+
 }

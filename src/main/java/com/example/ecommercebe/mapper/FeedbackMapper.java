@@ -1,9 +1,13 @@
 package com.example.ecommercebe.mapper;
 
 import com.example.ecommercebe.dto.FeedbackDTO;
+import com.example.ecommercebe.entities.Clinic;
 import com.example.ecommercebe.entities.Feedback;
 import com.example.ecommercebe.entities.Product;
+import com.example.ecommercebe.entities.User;
+import com.example.ecommercebe.repositories.ClinicRepository;
 import com.example.ecommercebe.repositories.ProductRepository;
+import com.example.ecommercebe.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +19,10 @@ public class FeedbackMapper {
 
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private ClinicRepository clinicRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     public Feedback toEntity(FeedbackDTO feedbackDTO) {
         Feedback feedback = new Feedback();
@@ -26,10 +34,10 @@ public class FeedbackMapper {
         Product product = productRepository.findById(feedbackDTO.getProduct_id()).orElse(null);
         feedback.setProduct(product);
 
-        Product clinic = productRepository.findById(feedbackDTO.getClinic_id()).orElse(null);
+        Clinic clinic = clinicRepository.findById(feedbackDTO.getClinic_id()).orElse(null);
         feedback.setClinic(clinic);
 
-        Product user = productRepository.findById(feedbackDTO.getUser_id()).orElse(null);
+        User user = userRepository.findById(feedbackDTO.getUser_id()).orElse(null);
         feedback.setUser(user);
 
         if (feedbackDTO.getParent_id() != 0) {
