@@ -7,13 +7,16 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class StockOutDTO {
+@NoArgsConstructor
+public class StockInDTO {
     private long id;
-    private long quantity;
     private long product_id;
     private long clinic_id;
-    private String reason;
-    private LocalDateTime dateOut;
+    private long quantity;
+    private LocalDateTime dateIn;
+    private String supplier;
+    private LocalDateTime manufactureDate;
+    private LocalDateTime expiryDate;
+    private int status;
 }

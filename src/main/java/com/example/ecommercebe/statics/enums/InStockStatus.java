@@ -1,5 +1,5 @@
 package com.example.ecommercebe.statics.enums;
 
-public enum StockInStatus {
+public enum InStockStatus {
     OUT_OF_STOCK, IN_STOCK, RUNNING_LOW
 }

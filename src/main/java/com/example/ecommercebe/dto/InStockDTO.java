@@ -1,5 +1,6 @@
 package com.example.ecommercebe.dto;
 
+import com.example.ecommercebe.statics.enums.InStockStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,13 +8,12 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class StockOutDTO {
-    private long id;
-    private long quantity;
+@NoArgsConstructor
+public class InStockDTO {
     private long product_id;
     private long clinic_id;
-    private String reason;
-    private LocalDateTime dateOut;
+    private long stockQuantity;
+    private LocalDateTime lastUpdate;
+    private InStockStatus statusStock;
 }

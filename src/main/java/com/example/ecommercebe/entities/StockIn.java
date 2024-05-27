@@ -1,10 +1,7 @@
 package com.example.ecommercebe.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -13,11 +10,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "StockOut")
-public class StockOut {
+@Table(name = "StockIn")
+public class StockIn {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Id")
     private long id;
 
     @ManyToOne
@@ -31,11 +29,20 @@ public class StockOut {
     @Column(name = "Quantity")
     private long quantity;
 
-    @Column(name = "DateOut")
-    private LocalDateTime dateOut;
+    @Column(name = "DateIn")
+    private LocalDateTime dateIn;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "Reason")
-    private String reason;
+    @Column(name = "Supplier")
+    private String supplier;
+
+    @Column(name = "ManufactureDate")
+    private LocalDateTime manufactureDate;
+
+    @Column(name = "ExpiryDate")
+    private LocalDateTime expiryDate;
+
+    @Column(name = "Status")
+    private int status;
+
 
 }
