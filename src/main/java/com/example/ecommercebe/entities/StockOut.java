@@ -1,5 +1,6 @@
 package com.example.ecommercebe.entities;
 
+import com.example.ecommercebe.statics.enums.Reason;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,6 +37,6 @@ public class StockOut {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "Reason")
-    private String reason;
+    private Reason reason;
 
 }

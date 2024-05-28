@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Data
@@ -14,11 +15,11 @@ import java.util.List;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long Id;
+    private Long Id;
     private String name;
     private String description;
     private String detail;
-    private double price;
+    private BigDecimal price;
     private String manufacturer;
     @ManyToOne
     @JoinColumn(name = "category_id")

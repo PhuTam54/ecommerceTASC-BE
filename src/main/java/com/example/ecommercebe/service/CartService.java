@@ -30,7 +30,7 @@ public class CartService {
         this.userRepository = userRepository;
     }
 
-    public ShoppingCart findShoppingCartByUserId(Integer userId) {
+    public ShoppingCart findShoppingCartByUserId(Long userId) {
         return shoppingCartRepository.findShoppingCartByUser_Id(userId);
     }
 

@@ -23,7 +23,7 @@ public class CartController {
         this.cartItemService = cartItemService;
     }
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<?> getUserCart(@RequestParam(name = "userId") int userId) {
+    public ResponseEntity<?> getUserCart(@RequestParam(name = "userId") Long userId) {
         ShoppingCart shoppingCart = cartService.findShoppingCartByUserId(userId);
         if (shoppingCart != null){
             return ResponseEntity.ok(shoppingCart);
