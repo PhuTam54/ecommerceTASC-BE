@@ -16,7 +16,7 @@ public class Clinic {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(name = "ClinicName")
+    @Column(name = "ClinicName", unique = true, nullable = false)
     private String clinicName;
     @Column(name = "Address")
     private String address;

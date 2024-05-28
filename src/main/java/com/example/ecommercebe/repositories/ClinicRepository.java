@@ -12,6 +12,6 @@ import java.util.List;
 @Repository
 public interface ClinicRepository extends JpaRepository<Clinic, Long>, JpaSpecificationExecutor<Clinic> {
     List<Clinic> findByAddress (String address);
-    @Query(value = "SELECT * FROM clinic WHERE address LIKE %:address%", nativeQuery = true)
+    @Query(value = "SELECT * FROM clinics WHERE address LIKE %:address%", nativeQuery = true)
     List<Clinic> findClinicsByAddress(@Param("address") String address);
 }
