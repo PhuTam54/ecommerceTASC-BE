@@ -3,6 +3,7 @@ package com.example.ecommercebe.controller;
 import com.example.ecommercebe.dto.FeedbackDTO;
 import com.example.ecommercebe.exception.CategoryNotFoundException;
 import com.example.ecommercebe.service.FeedbackService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Tag(name = "Feedback", description = "Feedback Controller")
+@CrossOrigin
 @RestController
 @RequestMapping("/feedback")
 public class FeedbackController {

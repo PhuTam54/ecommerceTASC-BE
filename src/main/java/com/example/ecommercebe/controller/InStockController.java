@@ -4,6 +4,7 @@ import com.example.ecommercebe.dto.InStockDTO;
 import com.example.ecommercebe.exception.NotFoundException;
 import com.example.ecommercebe.service.InStockService;
 import com.example.ecommercebe.service.InStockServiceImpl;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "In stock", description = "In stock Controller")
+@CrossOrigin
 @RestController
 @RequestMapping("/inStock")
 public class InStockController {
