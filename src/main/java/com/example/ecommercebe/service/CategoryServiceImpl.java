@@ -44,7 +44,18 @@ public class CategoryServiceImpl implements CategoryService{
 
     @Override
     public void updateCategory(Integer id, CategoryDTO updatedCategoryDTO) {
-        Category category = convertToEntityId(id, updatedCategoryDTO);
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new CategoryNotFoundException("Category not found with id: " + id));
+
+        category.setName(updatedCategoryDTO.getName());
+        if (updatedCategoryDTO.getParent_id() != null) {
+            Category parent = categoryRepository.findById(updatedCategoryDTO.getParent_id())
+                    .orElseThrow(() -> new CategoryNotFoundException("Parent category not found with id: " + updatedCategoryDTO.getParent_id()));
+            category.setParent(parent);
+        } else {
+            category.setParent(null);
+        }
+
         categoryRepository.save(category);
     }
 

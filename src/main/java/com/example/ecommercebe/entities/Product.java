@@ -1,30 +1,30 @@
 package com.example.ecommercebe.entities;
 
-import com.example.ecommercebe.entities.base.BaseEntity;
-import com.example.ecommercebe.statics.enums.ProductSimpleStatus;
-import lombok.*;
-
 import jakarta.persistence.*;
-import java.math.BigDecimal;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
-@NoArgsConstructor
+import java.math.BigDecimal;
+import java.util.List;
+
+@Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
-@ToString
-@Table(name = "products")
-public class Product extends BaseEntity {
+public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long Id;
     private String name;
-    private String slug;
     private String description;
     private String detail;
-    private String thumbnails; // nhiều ảnh cách nhau bởi dấu ,
     private BigDecimal price;
-    @Enumerated(EnumType.ORDINAL)
-    private ProductSimpleStatus status;
+    private String manufacturer;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
+    @OneToMany
+    private List<Feedback> feedback;
 }

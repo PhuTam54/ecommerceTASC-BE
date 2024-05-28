@@ -1,4 +1,4 @@
-package com.example.ecommercebe.dto.request;
+package com.example.ecommercebe.models.requests;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CartItemRequest {
-    private Integer productId;
-    private Integer userId; // to find shopping cart
+    private Long productId;
+    private Long userId; // to find shopping cart
     private Integer quantity;
 }

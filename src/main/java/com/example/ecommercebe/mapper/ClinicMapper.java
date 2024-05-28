@@ -1,4 +1,4 @@
-package com.example.ecommercebe.helper.mapper;
+package com.example.ecommercebe.mapper;
 
 import com.example.ecommercebe.dto.ClinicDTO;
 import com.example.ecommercebe.entities.Clinic;

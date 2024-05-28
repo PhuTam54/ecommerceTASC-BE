@@ -1,9 +1,9 @@
-package com.example.ecommercebe.Service.Impl;
+package com.example.ecommercebe.service.Impl;
 
-import com.example.ecommercebe.DTO.ProductDTO;
-import com.example.ecommercebe.Repository.ProductRepository;
-import com.example.ecommercebe.Service.ProductService;
-import com.example.ecommercebe.entity.Product;
+import com.example.ecommercebe.dto.ProductDTO;
+import com.example.ecommercebe.repositories.ProductRepository;
+import com.example.ecommercebe.service.ProductService;
+import com.example.ecommercebe.entities.Product;
 import com.example.ecommercebe.mapper.ProductMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
