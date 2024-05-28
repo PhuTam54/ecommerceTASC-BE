@@ -29,7 +29,7 @@ public class CategoryController {
 
     @GetMapping("/allcategory")
     public ResponseEntity<List<CategoryDTO>> getAllCategory(){
-        List<CategoryDTO> categoryDTOS = new ArrayList<>();
+        List<CategoryDTO> categoryDTOS = categoryService.getAllCategory();
         return ResponseEntity.ok(categoryDTOS);
     }
 

@@ -1,6 +1,6 @@
 package com.example.ecommercebe.mapper;
 
-import com.example.ecommercebe.DTO.ProductDTO;
+import com.example.ecommercebe.dto.ProductDTO;
 import com.example.ecommercebe.entities.Product;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
