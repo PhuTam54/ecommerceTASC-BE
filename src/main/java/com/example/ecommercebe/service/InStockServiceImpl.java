@@ -17,9 +17,6 @@ import java.util.stream.Collectors;
 public class InStockServiceImpl implements InStockService{
 
     @Autowired
-    private InStockService inStockService;
-
-    @Autowired
     private InStockRepository inStockRepository;
 
     @Autowired
@@ -95,7 +92,7 @@ public class InStockServiceImpl implements InStockService{
         } else throw new RuntimeException("Không tìm thấy InStock với clinic_id" + clinicId);
         List<InStock> inStocks = inStockRepository.findInStockByProductAndClinic(product1,clinic1);
         if(inStocks.isEmpty()){
-            inStockService.addInStock(productId, clinicId);
+            addInStock(productId, clinicId);
         }
         List<StockOut> stockOut = stockOutRepository.findStockOutByProductAndClinic(product1,clinic1);
         if(!stockOut.isEmpty()){
