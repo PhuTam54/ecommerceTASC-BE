@@ -3,19 +3,22 @@ package com.example.ecommercebe.controller;
 import com.example.ecommercebe.dto.ClinicDTO;
 import com.example.ecommercebe.entities.Clinic;
 import com.example.ecommercebe.exception.EntityNotFoundException;
-import com.example.ecommercebe.service.impl.ClinicServiceImpl;
+import com.example.ecommercebe.service.ClinicService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "Clinic", description = "Clinic Controller")
+@CrossOrigin
 @RestController
-@RequestMapping("/api/clinics")
+@RequestMapping("/api/v1/clinics")
 public class ClinicController {
 
     @Autowired
-    private ClinicServiceImpl clinicService;
+    private ClinicService clinicService;
 
     @GetMapping
     public ResponseEntity<List<Clinic>> getAllClinics() {
