@@ -8,6 +8,7 @@ import com.example.ecommercebe.mapper.StockOutMapper;
 import com.example.ecommercebe.repositories.ClinicRepository;
 import com.example.ecommercebe.repositories.ProductRepository;
 import com.example.ecommercebe.repositories.StockOutRepository;
+import com.example.ecommercebe.statics.enums.Reason;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -89,7 +90,7 @@ public class StockOutServiceImpl implements StockOutService{
                 stockOut1.setQuantity(stockOutDTO.getQuantity());
             }
             if(stockOutDTO.getReason()!= null){
-                stockOut1.setReason(stockOutDTO.getReason());
+                stockOut1.setReason(Reason.valueOf(stockOutDTO.getReason()));
             }
             if(stockOutDTO.getDateOut()!= null){
                 stockOut1.setDateOut(stockOutDTO.getDateOut());

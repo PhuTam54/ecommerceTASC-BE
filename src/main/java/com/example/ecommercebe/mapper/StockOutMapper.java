@@ -4,6 +4,7 @@ import com.example.ecommercebe.dto.StockOutDTO;
 import com.example.ecommercebe.entities.StockOut;
 import com.example.ecommercebe.repositories.ClinicRepository;
 import com.example.ecommercebe.repositories.ProductRepository;
+import com.example.ecommercebe.statics.enums.Reason;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +21,7 @@ public class StockOutMapper {
         stockOutDTO.setId(stockOut.getId());
         stockOutDTO.setQuantity(stockOut.getQuantity());
         stockOutDTO.setDateOut(stockOut.getDateOut());
-        stockOutDTO.setReason(stockOut.getReason());
+        stockOutDTO.setReason(String.valueOf(stockOut.getReason()));
         stockOutDTO.setProduct_id(stockOut.getProduct().getId());
         stockOutDTO.setClinic_id(stockOut.getClinic().getId());
         return stockOutDTO;
@@ -31,7 +32,7 @@ public class StockOutMapper {
         stockOut.setId(stockOutDTO.getId());
         stockOut.setQuantity(stockOutDTO.getQuantity());
         stockOut.setDateOut(stockOutDTO.getDateOut());
-        stockOut.setReason(stockOutDTO.getReason());
+        stockOut.setReason(Reason.valueOf(stockOutDTO.getReason()));
         stockOut.setProduct(productRepository.findById(stockOutDTO.getProduct_id()).orElse(null));
         stockOut.setClinic(clinicRepository.findById(stockOutDTO.getClinic_id()).orElse(null));
         return stockOut;

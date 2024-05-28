@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 @Service
 public class InStockServiceImpl implements InStockService{
 
-
     @Autowired
     private InStockRepository inStockRepository;
 

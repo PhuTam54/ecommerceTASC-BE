@@ -49,9 +49,9 @@ public class OrderSeeder implements CommandLineRunner {
         shoppingCart.setUser(userRepository.getById(1L));
         Set<CartItem> cartItems = new LinkedHashSet<>();
         CartItem cartItem = new CartItem();
-        cartItem.setProduct(productRepository.getById(1));
+        cartItem.setProduct(productRepository.getById(1L));
         cartItem.setQuantity(2);
-        cartItem.setTotal(productRepository.findById(1).get().getPrice().multiply(new BigDecimal(2)));
+        cartItem.setTotal(productRepository.findById(1L).get().getPrice().multiply(new BigDecimal(2)));
         cartItem.setShoppingCart(shoppingCart);
         cartItems.add(cartItem);
         shoppingCart.setCartItems(cartItems);
@@ -95,7 +95,7 @@ public class OrderSeeder implements CommandLineRunner {
                     continue;
                 }
                 OrderDetail orderDetail = new OrderDetail();
-                Product product = productRepository.findById(productId).get();
+                Product product = productRepository.findById((long) productId).get();
                 orderDetail.setProduct(product);
                 int quantity = faker.number().numberBetween(1, 5);
                 orderDetail.setOrder(order);
@@ -141,11 +141,11 @@ public class OrderSeeder implements CommandLineRunner {
             ProductSimpleStatus status = ProductSimpleStatus.ACTIVE;
             Product product = new Product();
             product.setName(productName);
-            product.setSlug(slug);
+//            product.setSlug(slug);
             product.setDescription(description);
-            product.setThumbnails("demo-img.jpg");
+//            product.setThumbnails("demo-img.jpg");
             product.setPrice(price);
-            product.setStatus(status);
+//            product.setStatus(status);
             product.setDetail(detail);
             products.add(product);
         }

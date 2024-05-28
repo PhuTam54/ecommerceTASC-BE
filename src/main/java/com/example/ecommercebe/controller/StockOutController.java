@@ -4,6 +4,7 @@ import com.example.ecommercebe.dto.StockOutDTO;
 
 import com.example.ecommercebe.exception.NotFoundException;
 import com.example.ecommercebe.service.StockOutService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Tag(name = "Stock out", description = "Stock out Controller")
+@CrossOrigin
 @RestController
 @RequestMapping("/stockout")
 public class StockOutController {

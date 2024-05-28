@@ -1,4 +1,4 @@
-package com.example.ecommercebe.service.Impl;
+package com.example.ecommercebe.service;
 
 import com.example.ecommercebe.dto.ProductDTO;
 import com.example.ecommercebe.repositories.ProductRepository;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ProductImpl implements ProductService {
+public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepository productRepository;
 
