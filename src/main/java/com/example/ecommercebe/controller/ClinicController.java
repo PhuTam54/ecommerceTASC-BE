@@ -3,23 +3,33 @@ package com.example.ecommercebe.controller;
 import com.example.ecommercebe.dto.ClinicDTO;
 import com.example.ecommercebe.entities.Clinic;
 import com.example.ecommercebe.exception.EntityNotFoundException;
+import com.example.ecommercebe.service.ClinicService;
 import com.example.ecommercebe.service.impl.ClinicServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
-@RequestMapping("/api/clinics")
+@RequestMapping("/api/v1/clinics")
 public class ClinicController {
 
-    @Autowired
-    private ClinicServiceImpl clinicService;
+    private final ClinicService clinicService;
+    private ClinicController(ClinicService clinicService) {
+        this.clinicService = clinicService;
+    }
 
     @GetMapping
-    public ResponseEntity<List<Clinic>> getAllClinics() {
-        List<Clinic> clinics = clinicService.getAllClinics();
+    public ResponseEntity<Page<Clinic>> getAllClinics(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Clinic> clinics = clinicService.getAllClinics(pageable);
         return ResponseEntity.ok(clinics);
     }
 
@@ -34,8 +44,13 @@ public class ClinicController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<Clinic>> getClinicsByAddress(@RequestParam String address) {
-        List<Clinic> clinics = clinicService.getClinicByAddress(address);
+    public ResponseEntity<Page<Clinic>> getClinicsByAddress(
+            @RequestParam String address,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Clinic> clinics = clinicService.getClinicByAddress(address, pageable);
         return ResponseEntity.ok(clinics);
     }
 

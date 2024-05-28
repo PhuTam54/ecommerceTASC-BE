@@ -1,4 +1,4 @@
-package com.example.ecommercebe.service.Impl;
+package com.example.ecommercebe.service.impl;
 
 import com.example.ecommercebe.dto.ProductDTO;
 import com.example.ecommercebe.repositories.ProductRepository;

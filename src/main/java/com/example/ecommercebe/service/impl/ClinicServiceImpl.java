@@ -7,6 +7,8 @@ import com.example.ecommercebe.repositories.ClinicRepository;
 import com.example.ecommercebe.service.ClinicService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,13 +30,13 @@ public class ClinicServiceImpl implements ClinicService {
     }
 
     @Override
-    public List<Clinic> getAllClinics() {
-        return clinicRepository.findAll();
+    public Page<Clinic> getAllClinics(Pageable pageable) {
+        return clinicRepository.findAll(pageable);
     }
 
     @Override
-    public List<Clinic> getClinicByAddress (String address) {
-        return clinicRepository.findClinicsByAddress(address);
+    public Page<Clinic> getClinicByAddress (String address, Pageable pageable) {
+        return clinicRepository.findClinicsByAddress(address, pageable);
     }
 
     @Override
