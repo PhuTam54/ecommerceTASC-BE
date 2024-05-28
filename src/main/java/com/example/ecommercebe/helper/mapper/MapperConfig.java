@@ -1,5 +1,6 @@
 package com.example.ecommercebe.helper.mapper;
 
+import com.example.ecommercebe.mapper.ClinicMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

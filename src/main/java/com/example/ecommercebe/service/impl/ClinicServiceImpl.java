@@ -2,7 +2,7 @@ package com.example.ecommercebe.service.impl;
 
 import com.example.ecommercebe.dto.ClinicDTO;
 import com.example.ecommercebe.entities.Clinic;
-import com.example.ecommercebe.helper.mapper.ClinicMapper;
+import com.example.ecommercebe.mapper.ClinicMapper;
 import com.example.ecommercebe.repositories.ClinicRepository;
 import com.example.ecommercebe.service.ClinicService;
 import jakarta.persistence.EntityNotFoundException;
