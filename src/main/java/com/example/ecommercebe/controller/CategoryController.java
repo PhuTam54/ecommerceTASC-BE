@@ -5,6 +5,7 @@ import com.example.ecommercebe.dto.CategoryDTO;
 import com.example.ecommercebe.exception.CategoryNotFoundException;
 import com.example.ecommercebe.mapper.CategoryMapper;
 import com.example.ecommercebe.service.CategoryService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,8 +18,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Tag(name = "Category", description = "Category Controller")
+@CrossOrigin
 @RestController
-@RequestMapping("/api/category")
+@RequestMapping("/api/v1/category")
 public class CategoryController {
 
     @Autowired
