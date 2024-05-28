@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping("/inStock")
 public class InStockController {
     @Autowired
-    private InStockServiceImpl inStockService;
+    private InStockService inStockService;
 
     @GetMapping("/product/{productId}")
     public ResponseEntity<?> getAllInStockByProductId(@PathVariable long productId){

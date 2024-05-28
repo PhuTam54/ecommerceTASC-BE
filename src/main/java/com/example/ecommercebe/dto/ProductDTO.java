@@ -5,11 +5,12 @@ import lombok.Data;
 
 @Data
 public class ProductDTO {
+    private long Id;
     @NotNull(message = "Name is mandatory")
     private String name;
     private String description;
     private String detail;
     private double price;
     private String Manufacturer;
-    private long categoryId;
+    private Integer categoryId;
 }

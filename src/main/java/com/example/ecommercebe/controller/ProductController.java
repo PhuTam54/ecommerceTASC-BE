@@ -1,6 +1,10 @@
 package com.example.ecommercebe.controller;
 
+import com.example.ecommercebe.dto.CategoryDTO;
 import com.example.ecommercebe.dto.ProductDTO;
+import com.example.ecommercebe.entities.Category;
+import com.example.ecommercebe.repositories.CategoryRepository;
+import com.example.ecommercebe.service.CategoryService;
 import com.example.ecommercebe.service.ProductService;
 import com.example.ecommercebe.entities.Product;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -30,18 +34,27 @@ import java.util.stream.Collectors;
 public class ProductController {
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
+
     @GetMapping("/getAll")
-    public List<Product> getAllProducts() {
+    public List<ProductDTO> getAllProducts() {
         return productService.getAllProducts();
     }
 
     @GetMapping("/getByName/{name}")
-    public ResponseEntity<Product> getProductByName(@PathVariable String name) {
-        Product product = productService.getProductByName(name);
+    public ResponseEntity<ProductDTO> getProductByName(@PathVariable String name) {
+        ProductDTO product = productService.getProductByName(name);
         if (product == null) {
             throw new NotFoundException("Product not found with id: " + name);
         }
         return ResponseEntity.ok(product);
+    }
+    @GetMapping("/getByCategory/{categoryId}")
+    public List<ProductDTO> findByCategory(@PathVariable Integer Id) {
+        Category category = categoryRepository.findById(Id).orElse(null);
+        return productService.findByCategory(category);
     }
     @PostMapping("/create")
     public ResponseEntity<?> addProduct(@Valid @RequestBody ProductDTO productDTO, BindingResult result) {
