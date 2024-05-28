@@ -1,7 +1,7 @@
 package com.example.ecommercebe.repositories;
 
 import com.example.ecommercebe.entities.Category;
-//import com.example.demojpa.Entity.Product;
+//import com.example.demojpa.entities.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
