@@ -2,7 +2,7 @@ package com.example.ecommercebe.service;
 
 import com.example.ecommercebe.dto.ClinicDTO;
 import com.example.ecommercebe.entities.Clinic;
-import com.example.ecommercebe.helper.mapper.ClinicMapper;
+import com.example.ecommercebe.mapper.ClinicMapper;
 import com.example.ecommercebe.repositories.ClinicRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;

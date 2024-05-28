@@ -3,6 +3,7 @@ package com.example.ecommercebe.controller;
 import com.example.ecommercebe.dto.InStockDTO;
 import com.example.ecommercebe.exception.NotFoundException;
 import com.example.ecommercebe.service.InStockService;
+import com.example.ecommercebe.service.InStockServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,7 @@ import java.util.List;
 @RequestMapping("/inStock")
 public class InStockController {
     @Autowired
-    private InStockService inStockService;
+    private InStockServiceImpl inStockService;
 
     @GetMapping("/product/{productId}")
     public ResponseEntity<?> getAllInStockByProductId(@PathVariable long productId){
