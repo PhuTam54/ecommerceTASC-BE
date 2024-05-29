@@ -19,5 +19,5 @@ public class ProductDTO {
     private String Manufacturer;
     @NotNull(message = "Category ID is mandatory")
     private long categoryId;
-    private MultipartFile productImage;
+//    private MultipartFile productImage;
 }

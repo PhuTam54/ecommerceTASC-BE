@@ -37,6 +37,6 @@ public class ProductMapper {
         product.setDescription(productDTO.getDescription());
         product.setDetail(productDTO.getDetail());
         product.setManufacturer(productDTO.getManufacturer());
-        product.setCategory(categoryRepository.findById((productDTO.getCategoryId())).orElse(null));
+        product.setCategory(categoryRepository.findById((int) productDTO.getCategoryId()).orElse(null));
         return product;
     }}
