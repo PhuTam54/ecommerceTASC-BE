@@ -29,8 +29,14 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
     }
-    public Page<UserDTO> findAll(Pageable pageable) {
-        Page<User> userPage = userRepository.findAll(pageable);
+    public Page<UserDTO> getAll(Pageable pageable) {
+        Page<User> userPage = userRepository.findByDeletedAtIsNull(pageable);
+        Page<UserDTO> userDTOPage = userPage.map(UserMapper.INSTANCE::userToUserDTO);
+        return userDTOPage;
+    }
+
+    public Page<UserDTO> getInTrash(Pageable pageable) {
+        Page<User> userPage = userRepository.findByDeletedAtIsNotNull(pageable);
         Page<UserDTO> userDTOPage = userPage.map(UserMapper.INSTANCE::userToUserDTO);
         return userDTOPage;
     }
@@ -56,12 +62,8 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             throw new UsernameNotFoundException("Cannot find this user id: " + id);
         }
-        Date now = new Date();
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String formattedDate = sdf.format(now);
-
-        user.setDeletedAt(LocalDateTime.parse(formattedDate));
+        LocalDateTime now = LocalDateTime.now();
+        user.setDeletedAt(now);
 
         userRepository.save(user);
     }

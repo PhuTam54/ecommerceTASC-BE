@@ -22,13 +22,18 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<?> getAllUsers(@RequestParam(name = "page") int page, @RequestParam(name = "limit") int limit) {
-        return ResponseEntity.ok(userService.findAll(PageRequest.of(page - 1, limit)));
+        return ResponseEntity.ok(userService.getAll(PageRequest.of(page - 1, limit)));
     }
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable(name = "id") Long id) {
         UserDTO user = userService.findById(id);
         return ResponseEntity.ok(user);
+    }
+
+    @GetMapping(path = "/trash")
+    public ResponseEntity<?> getInTrashUsers(@RequestParam(name = "page") int page, @RequestParam(name = "limit") int limit) {
+        return ResponseEntity.ok(userService.getInTrash(PageRequest.of(page - 1, limit)));
     }
 
     @GetMapping(path = "/username")
