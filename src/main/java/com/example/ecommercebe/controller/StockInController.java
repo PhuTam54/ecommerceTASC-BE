@@ -3,6 +3,7 @@ package com.example.ecommercebe.controller;
 import com.example.ecommercebe.dto.StockInDTO;
 
 import com.example.ecommercebe.exception.NotFoundException;
+import com.example.ecommercebe.service.InStockService;
 import com.example.ecommercebe.service.StockInService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -24,6 +25,9 @@ public class StockInController {
 
     @Autowired
     private StockInService stockInService;
+
+    @Autowired
+    private InStockService inStockService;
 
     @GetMapping("/product/{id}")
     public ResponseEntity<List<StockInDTO>> getAllStockInByProduct(@PathVariable long productId) {
@@ -61,6 +65,7 @@ public class StockInController {
             return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
         }
         stockInService.addStockIn(stockInDTO);
+        inStockService.updateInStock(stockInDTO.getProduct_id(),stockInDTO.getClinic_id());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

@@ -103,7 +103,7 @@ public class InStockServiceImpl implements InStockService{
         List<StockIn> stockIn = stockInRepository.findStockInByProductAndClinic(product1,clinic1);
         if(!stockIn.isEmpty()){
             for (StockIn stockIn1: stockIn) {
-                quantityStockOut += stockIn1.getQuantity();
+                quantityStockIn += stockIn1.getQuantity();
             }
         }
         List<InStock> inStock1 = inStockRepository.findInStockByProductAndClinic(product1,clinic1);
