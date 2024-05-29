@@ -1,4 +1,4 @@
-package com.example.ecommercebe.service.impl;
+package com.example.ecommercebe.service;
 
 import com.example.ecommercebe.entities.FavoriteProducts;
 import com.example.ecommercebe.entities.Product;

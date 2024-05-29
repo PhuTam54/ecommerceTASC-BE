@@ -4,7 +4,6 @@ import com.example.ecommercebe.dto.ClinicDTO;
 import com.example.ecommercebe.entities.Clinic;
 import com.example.ecommercebe.exception.EntityNotFoundException;
 import com.example.ecommercebe.service.ClinicService;
-import com.example.ecommercebe.service.impl.ClinicServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,17 +11,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @CrossOrigin
 @RestController
 @RequestMapping("/api/v1/clinics")
 public class ClinicController {
 
-    private final ClinicService clinicService;
-    private ClinicController(ClinicService clinicService) {
-        this.clinicService = clinicService;
-    }
+    @Autowired
+    private ClinicService clinicService;
 
     @GetMapping
     public ResponseEntity<Page<Clinic>> getAllClinics(

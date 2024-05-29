@@ -10,10 +10,21 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ClinicRepository extends JpaRepository<Clinic, Long>, JpaSpecificationExecutor<Clinic> {
     Page<Clinic> findByAddress (String address, Pageable pageable);
+
     @Query(value = "SELECT * FROM clinics WHERE address LIKE %:address%", nativeQuery = true)
     Page<Clinic> findClinicsByAddress(@Param("address") String address, Pageable pageable);
+
+    Page<Clinic> findByEmail (String email, Pageable pageable);
+
+    Optional<Clinic> findByEmail (String email);
+
+    Optional<Clinic> findByName (String email);
+
+    Optional<Clinic> findByPhone (String email);
+
 }

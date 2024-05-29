@@ -1,4 +1,4 @@
-package com.example.ecommercebe.helper.mapper;
+package com.example.ecommercebe.mapper;
 
 import com.example.ecommercebe.mapper.ClinicMapper;
 import org.springframework.context.annotation.Bean;
