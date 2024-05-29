@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @Tag(name = "Category", description = "Category Controller")
 @CrossOrigin
 @RestController
-@RequestMapping("/api/v1/category")
+@RequestMapping("/api/v1/Categories")
 public class CategoryController {
 
     @Autowired
@@ -57,7 +57,7 @@ public class CategoryController {
         return category;
     }
 
-    @PostMapping("/add")
+    @PostMapping("/")
     public ResponseEntity<?> addCategory(@Valid @RequestBody CategoryDTO categoryDTO, BindingResult result) {
         if (result.hasErrors()) {
             Map<String, String> errors = result.getFieldErrors().stream()
@@ -68,7 +68,7 @@ public class CategoryController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<?> updateCategory(@PathVariable Integer id ,@Valid @RequestBody CategoryDTO categoryDTO, BindingResult result) {
         if(result.hasErrors()) {
             Map<String, String> errors = result.getFieldErrors().stream()
@@ -79,19 +79,19 @@ public class CategoryController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteCategory(@PathVariable Integer id){
         categoryService.deleteCategory(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/children/{parentId}")
-    public List<CategoryDTO> getCategoryByParent(@PathVariable Integer parentId) {
+    @GetMapping("/children/{Id}")
+    public List<CategoryDTO> getCategoryByParent(@PathVariable Integer Id) {
         Category parent = new Category();
-        parent.setId(parentId);
+        parent.setId(Id);
         List<CategoryDTO> category = categoryService.getCategoryByParent(parent);
         if (category == null) {
-            throw new CategoryNotFoundException("Parent Category not found with id: " + parentId);
+            throw new CategoryNotFoundException("Parent Category not found with id: " + Id);
         }
         return category;
     }

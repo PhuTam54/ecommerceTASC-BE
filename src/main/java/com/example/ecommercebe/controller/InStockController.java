@@ -15,7 +15,7 @@ import java.util.List;
 @Tag(name = "In stock", description = "In stock Controller")
 @CrossOrigin
 @RestController
-@RequestMapping("/inStock")
+@RequestMapping("/api/v1/inStocks")
 public class InStockController {
     @Autowired
     private InStockServiceImpl inStockService;
@@ -37,17 +37,17 @@ public class InStockController {
         return ResponseEntity.ok(inStockDTO);
     }
 
-    @GetMapping("/{productId}/{clinicId}")
-    public ResponseEntity<?> getAllInStockByProductIdAndClinicId(@PathVariable long productId,@PathVariable long clinicId){
+    @GetMapping("/")
+    public ResponseEntity<?> getAllInStockByProductIdAndClinicId(@RequestParam(name = "ProductId") long productId, @RequestParam(name = "ClinicId") long clinicId){
         List<InStockDTO> inStockDTO = inStockService.getInStockByProducIdAndClinicId(productId, clinicId);
         if(inStockDTO.isEmpty()){
             throw new NotFoundException("InStock not found with ProductId" + productId + "and ClinicId" + clinicId);
         }
         return ResponseEntity.ok(inStockDTO);
     }
-    @PutMapping("/update/{productId}/{clinicId}")
-    public ResponseEntity<?> updateInStock(@PathVariable long productId, @PathVariable long clinicId){
+    @PutMapping("/")
+    public ResponseEntity<?> updateInStock(@RequestParam(name = "ProductId") long productId, @RequestParam(name = "ClinicId") long clinicId){
         inStockService.updateInStock(productId, clinicId);
-        return ResponseEntity.ok(HttpStatus.UPGRADE_REQUIRED);
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 }

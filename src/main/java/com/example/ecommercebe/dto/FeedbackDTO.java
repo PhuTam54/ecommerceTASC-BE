@@ -20,5 +20,5 @@ public class FeedbackDTO {
     private long user_id;
     private int rating;
     private LocalDateTime createAt;
-    private List<FeedbackDTO> children;
+    private List<String> children;
 }
