@@ -2,6 +2,7 @@ package com.example.ecommercebe.dto;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class ProductDTO {
@@ -12,4 +13,5 @@ public class ProductDTO {
     private double price;
     private String Manufacturer;
     private long categoryId;
+    private MultipartFile productImage;
 }
