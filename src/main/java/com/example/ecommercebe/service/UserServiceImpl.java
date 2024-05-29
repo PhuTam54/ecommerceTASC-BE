@@ -13,6 +13,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -45,6 +49,23 @@ public class UserServiceImpl implements UserService {
         }
         return UserMapper.INSTANCE.userToUserDTO(user);
     }
+
+    @Override
+    public void moveToTrash(Long id) {
+        User user = userRepository.findById(id).orElse(null);
+        if (user == null) {
+            throw new UsernameNotFoundException("Cannot find this user id: " + id);
+        }
+        Date now = new Date();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String formattedDate = sdf.format(now);
+
+        user.setDeletedAt(LocalDateTime.parse(formattedDate));
+
+        userRepository.save(user);
+    }
+
     public UserDTO createUser(UserRequest userRequest) {
         User user = new User();
         user.setUsername(userRequest.getUsername());
@@ -54,7 +75,7 @@ public class UserServiceImpl implements UserService {
         user.setPhoneNumber(userRequest.getPhoneNumber());
         user.setDateOfBirth(userRequest.getDateOfBirth());
 
-        Set<String> strRoles = userRequest.getRole();
+        Set<String> strRoles = userRequest.getRoles();
         Set<Role> roles = new HashSet<>();
 
         if (strRoles == null) {
@@ -101,7 +122,7 @@ public class UserServiceImpl implements UserService {
         user.setPhoneNumber(userRequest.getPhoneNumber());
         user.setDateOfBirth(userRequest.getDateOfBirth());
 
-        Set<String> strRoles = userRequest.getRole();
+        Set<String> strRoles = userRequest.getRoles();
         Set<Role> roles = new HashSet<>();
 
         if (strRoles == null) {
@@ -138,5 +159,7 @@ public class UserServiceImpl implements UserService {
     public void deleteById(Long id) {
         userRepository.deleteById(id);
     }
+
+
 
 }

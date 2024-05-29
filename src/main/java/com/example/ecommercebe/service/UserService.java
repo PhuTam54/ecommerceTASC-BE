@@ -12,4 +12,5 @@ public interface UserService {
     void deleteById(Long id);
     UserDTO findById(Long id);
     UserDTO findByUsername(String username);
+    void moveToTrash(Long id);
 }

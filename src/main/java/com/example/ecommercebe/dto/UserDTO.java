@@ -16,12 +16,12 @@ public class UserDTO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String userName;
+    private String username;
     private String address;
     private String email;
     private String phoneNumber;
     private String dateOfBirth;
-    private String Gender;
+    private String gender;
     private Set<Role> roles = new HashSet<>();
 
     public UserDTO(User user) {
