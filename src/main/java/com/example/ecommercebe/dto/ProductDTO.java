@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @AllArgsConstructor
@@ -17,5 +18,6 @@ public class ProductDTO {
     private double price;
     private String Manufacturer;
     @NotNull(message = "Category ID is mandatory")
-    private Integer categoryId;
+    private long categoryId;
+    private MultipartFile productImage;
 }

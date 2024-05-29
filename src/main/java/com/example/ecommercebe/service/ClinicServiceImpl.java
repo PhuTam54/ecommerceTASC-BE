@@ -1,10 +1,9 @@
-package com.example.ecommercebe.service.impl;
+package com.example.ecommercebe.service;
 
 import com.example.ecommercebe.dto.ClinicDTO;
 import com.example.ecommercebe.entities.Clinic;
 import com.example.ecommercebe.mapper.ClinicMapper;
 import com.example.ecommercebe.repositories.ClinicRepository;
-import com.example.ecommercebe.service.ClinicService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
