@@ -1,9 +1,14 @@
 package com.example.ecommercebe.controller;
 
+import com.example.ecommercebe.dto.ProductDTO;
 import com.example.ecommercebe.dto.ProductDetailDTO;
+import com.example.ecommercebe.entities.Product;
 import com.example.ecommercebe.exception.CategoryNotFoundException;
+import com.example.ecommercebe.mapper.ProductMapper;
 import com.example.ecommercebe.repositories.ProductDetailRepository;
+import com.example.ecommercebe.repositories.ProductRepository;
 import com.example.ecommercebe.service.ProductDetailService;
+import com.example.ecommercebe.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,8 +17,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/productDetail")
 public class ProductDetailController {
@@ -21,10 +28,19 @@ public class ProductDetailController {
     private ProductDetailService productDetailService;
 
     @Autowired
+    private ProductService productService;
+
+    @Autowired
     private ProductDetailRepository productDetailRepository;
 
+    @Autowired
+    private ProductMapper productMapper;
 
-    @GetMapping("/productDetail/{id}")
+    @Autowired
+    private ProductRepository productRepository;
+
+
+    @GetMapping("/{id}")
     public ResponseEntity<?> getProductDetailById(@PathVariable long id) {
         ProductDetailDTO productDetail = productDetailService.getProductDetailById(id);
         if(productDetail == null){
@@ -33,18 +49,26 @@ public class ProductDetailController {
         return ResponseEntity.ok(productDetail);
     }
 
-    @PostMapping("/ProductDetail")
+    public ProductDTO getProductById(long id) {
+        Product product = productRepository.findById(id).orElse(null);
+        return product != null ? productMapper.toDTO(product) : null;
+    }
+
+    @PostMapping("/productDetails")
     public ResponseEntity<?> addProductDetail(@RequestBody ProductDetailDTO productDetailDTO, BindingResult result) {
         if(result.hasErrors()){
             Map<String, String> errors = result.getFieldErrors().stream()
                     .collect(Collectors.toMap(fieldError -> fieldError.getField(), fieldError -> fieldError.getDefaultMessage()));
-            return  new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
         }
         productDetailService.addProductDetail(productDetailDTO);
-        return ResponseEntity.ok("Product Detail added successfully");
-    }
+        return ResponseEntity.ok(HttpStatus.CREATED);
 
-    @PutMapping("/ProductDetail/{id}")
+        }
+
+
+
+    @PutMapping("/{id}")
     public ResponseEntity<?> updateProductDetail(@PathVariable long id, @RequestBody ProductDetailDTO updatedProductDetailDTO, BindingResult result) {
         if(result.hasErrors()){
             Map<String, String> errors = result.getFieldErrors().stream()
@@ -55,7 +79,7 @@ public class ProductDetailController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @DeleteMapping("/ProductDetail/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteProductDetail(@PathVariable long id) {
         productDetailService.deleteProductDetail(id);
         return ResponseEntity.ok("Product Detail deleted successfully");

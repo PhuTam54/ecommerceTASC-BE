@@ -19,8 +19,8 @@ public class ProductDetail {
     private Product product;
     @Column(name = "ingredient")
     private String Ingredient;
-    @Column(name = "usage")
-    private String Usage;
+    @Column(name = "usages")
+    private String Usages;
     @Column(name = "usage_instructions")
     private String UsageInstructions;
     @Column(name = "description")

@@ -15,7 +15,7 @@ public class ProductDetailMapper {
         ProductDetailDTO productDetailDTO = new ProductDetailDTO();
         productDetailDTO.setProductId(productDetail.getProduct().getId());
         productDetailDTO.setIngredient(productDetail.getIngredient());
-        productDetailDTO.setUsage(productDetail.getUsage());
+        productDetailDTO.setUsages(productDetail.getUsages());
         productDetailDTO.setUsageInstructions(productDetail.getUsageInstructions());
         productDetailDTO.setDescription(productDetail.getDescription());
         productDetailDTO.setSideEffects(productDetail.getSideEffects());
@@ -28,7 +28,7 @@ public class ProductDetailMapper {
         ProductDetail productDetail = new ProductDetail();
         productDetail.setProduct(productRepository.findById(productDetailDTO.getProductId()).orElse(null));
         productDetail.setIngredient(productDetailDTO.getIngredient());
-        productDetail.setUsage(productDetailDTO.getUsage());
+        productDetail.setUsages(productDetailDTO.getUsages());
         productDetail.setUsageInstructions(productDetailDTO.getUsageInstructions());
         productDetail.setDescription(productDetailDTO.getDescription());
         productDetail.setSideEffects(productDetailDTO.getSideEffects());

@@ -38,4 +38,6 @@ public class Product {
     private List<InStock> inStocks;
     @OneToMany(mappedBy = "product")
     private List<Feedback> feedbacks;
+    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
+    private ProductDetail productDetail;
 }
