@@ -4,12 +4,14 @@ import com.example.ecommercebe.dto.ClinicDTO;
 import com.example.ecommercebe.entities.Clinic;
 import com.example.ecommercebe.mapper.ClinicMapper;
 import com.example.ecommercebe.repositories.ClinicRepository;
+
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,6 +44,7 @@ public class ClinicServiceImpl implements ClinicService {
 
     @Override
     public void addClinic (ClinicDTO clinicDTO) {
+
         if (clinicDTO == null) {
             throw new NullPointerException("ClinicDTO can't be null");
         }

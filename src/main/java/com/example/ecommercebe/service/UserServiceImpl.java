@@ -13,6 +13,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,11 +28,19 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
     }
-    public Page<UserDTO> findAll(Pageable pageable) {
-        Page<User> userPage = userRepository.findAll(pageable);
+
+    public Page<UserDTO> getAll(Pageable pageable) {
+        Page<User> userPage = userRepository.findByDeletedAtIsNull(pageable);
         Page<UserDTO> userDTOPage = userPage.map(UserMapper.INSTANCE::userToUserDTO);
         return userDTOPage;
     }
+
+    public Page<UserDTO> getInTrash(Pageable pageable) {
+        Page<User> userPage = userRepository.findByDeletedAtIsNotNull(pageable);
+        Page<UserDTO> userDTOPage = userPage.map(UserMapper.INSTANCE::userToUserDTO);
+        return userDTOPage;
+    }
+  
     public UserDTO findById(Long id) {
         User user = userRepository.findById(id).orElse(null);
         if (user == null) {
@@ -45,6 +56,19 @@ public class UserServiceImpl implements UserService {
         }
         return UserMapper.INSTANCE.userToUserDTO(user);
     }
+
+    @Override
+    public void moveToTrash(Long id) {
+        User user = userRepository.findById(id).orElse(null);
+        if (user == null) {
+            throw new UsernameNotFoundException("Cannot find this user id: " + id);
+        }
+        LocalDateTime now = LocalDateTime.now();
+        user.setDeletedAt(now);
+
+        userRepository.save(user);
+    }
+
     public UserDTO createUser(UserRequest userRequest) {
         User user = new User();
         user.setUsername(userRequest.getUsername());
@@ -54,7 +78,7 @@ public class UserServiceImpl implements UserService {
         user.setPhoneNumber(userRequest.getPhoneNumber());
         user.setDateOfBirth(userRequest.getDateOfBirth());
 
-        Set<String> strRoles = userRequest.getRole();
+        Set<String> strRoles = userRequest.getRoles();
         Set<Role> roles = new HashSet<>();
 
         if (strRoles == null) {
@@ -101,7 +125,7 @@ public class UserServiceImpl implements UserService {
         user.setPhoneNumber(userRequest.getPhoneNumber());
         user.setDateOfBirth(userRequest.getDateOfBirth());
 
-        Set<String> strRoles = userRequest.getRole();
+        Set<String> strRoles = userRequest.getRoles();
         Set<Role> roles = new HashSet<>();
 
         if (strRoles == null) {
@@ -135,6 +159,7 @@ public class UserServiceImpl implements UserService {
         User savedUser = userRepository.save(user);
         return UserMapper.INSTANCE.userToUserDTO(savedUser);
     }
+  
     public void deleteById(Long id) {
         userRepository.deleteById(id);
     }

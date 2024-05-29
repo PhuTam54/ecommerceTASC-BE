@@ -71,8 +71,8 @@ public class InStockServiceImpl implements InStockService{
         } else throw new RuntimeException("Không tìm thấy InStock với clinic_id" + clinicId);
         List<InStock> inStocks = inStockRepository.findInStockByProductAndClinic(product1,clinic1);
         return inStocks.stream()
-            .map(InStockMapper::toDTO)
-            .collect(Collectors.toList());
+                .map(InStockMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -103,7 +103,7 @@ public class InStockServiceImpl implements InStockService{
         List<StockIn> stockIn = stockInRepository.findStockInByProductAndClinic(product1,clinic1);
         if(!stockIn.isEmpty()){
             for (StockIn stockIn1: stockIn) {
-                quantityStockOut += stockIn1.getQuantity();
+                quantityStockIn += stockIn1.getQuantity();
             }
         }
         List<InStock> inStock1 = inStockRepository.findInStockByProductAndClinic(product1,clinic1);
@@ -127,7 +127,11 @@ public class InStockServiceImpl implements InStockService{
     }
 
     public void addInStock(long product_id, long clinic_id){
+//        StockId stockId = new StockId();
+//        stockId.setProductId(product_id);
+//        stockId.setClinicId(clinic_id);
         InStock inStock = new InStock();
+
         inStock.setStockQuantity(0);
         Optional<Product> product = productRepository.findById(product_id);
         Product product1;

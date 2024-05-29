@@ -17,15 +17,14 @@ import java.time.LocalDateTime;
 @Table(name = "InStock")
 public class InStock {
 
-    @EmbeddedId
-    private StockId stockId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long stockId;
 
-    @MapsId("productId")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ProductId",referencedColumnName = "id")
     private Product product;
 
-    @MapsId("clinicId")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ClinicID",referencedColumnName = "id")
     private Clinic clinic;

@@ -4,6 +4,7 @@ import com.example.ecommercebe.dto.ClinicDTO;
 import com.example.ecommercebe.entities.Clinic;
 import com.example.ecommercebe.exception.EntityNotFoundException;
 import com.example.ecommercebe.service.ClinicService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+@Tag(name = "Clinic", description = "Clinic Controller")
 @CrossOrigin
 @RestController
 @RequestMapping("/api/v1/clinics")

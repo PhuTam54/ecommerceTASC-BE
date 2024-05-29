@@ -2,9 +2,11 @@ package com.example.ecommercebe.service;
 
 import com.example.ecommercebe.dto.InStockDTO;
 import com.example.ecommercebe.statics.enums.InStockStatus;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public interface InStockService {
     List<InStockDTO> getInStockByProductId(long productId);
     List<InStockDTO> getInStockByClinicId(long clinicId);

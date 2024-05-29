@@ -33,6 +33,7 @@ public class Clinic {
     private String openingHours;
     @Column(name = "closing_hours")
     private String closingHours;
+
     @Column(name = "is_deleted")
     private boolean deleted = false;
 

@@ -30,24 +30,24 @@ public class CartService {
         this.userRepository = userRepository;
     }
 
-    public ShoppingCart findShoppingCartByUserId(Long userId) {
-        return shoppingCartRepository.findShoppingCartByUser_Id(userId);
+    public ShoppingCart findShoppingCartByUserId(Integer userId) {
+        return shoppingCartRepository.findShoppingCartByUser_Id(userId.longValue());
     }
 
     public ShoppingCart saveCartItem(CartItemRequest cartItem) {
-        ShoppingCart shoppingCart = shoppingCartRepository.findShoppingCartByUser_Id(cartItem.getUserId());
+        ShoppingCart shoppingCart = shoppingCartRepository.findShoppingCartByUser_Id(cartItem.getUserId().longValue());
         // if there's an existing shopping cart of a user
         if (shoppingCart != null) {
             CartItem itemExisting = null;
             for (CartItem item :
                     shoppingCart.getCartItems()) {
-                if (item.getProduct().getId().equals(cartItem.getProductId())) {
+                if (item.getProduct().getId() == cartItem.getProductId()) {
                     itemExisting = item;
                     break;
                 }
             }
             int quantity;
-            Optional<Product> product = productRepository.findById(cartItem.getProductId());
+            Optional<Product> product = productRepository.findById(cartItem.getProductId().longValue());
             if (itemExisting != null) {
                 quantity = itemExisting.getQuantity() + cartItem.getQuantity();
             } else {
@@ -60,7 +60,7 @@ public class CartService {
             if (product.isPresent()) {
                 BigDecimal oldCartItemTotal = itemExisting.getTotal();
                 itemExisting.setQuantity(quantity);
-                itemExisting.setTotal(product.get().getPrice().multiply(new BigDecimal(quantity)));
+                itemExisting.setTotal(new BigDecimal(product.get().getPrice()).multiply(new BigDecimal(quantity)));
                 shoppingCart.setTotal(shoppingCart.getTotal().subtract(oldCartItemTotal).add(itemExisting.getTotal()));
                 shoppingCartRepository.save(shoppingCart);
                 cartItemRepository.save(itemExisting);
@@ -94,13 +94,13 @@ public class CartService {
         return null;
     }
     private CartItem createNewCartItem(CartItemRequest cartItem, ShoppingCart shoppingCart){
-        Optional<Product> product = productRepository.findById(cartItem.getProductId());
+        Optional<Product> product = productRepository.findById(cartItem.getProductId().longValue());
         CartItem newCartItem = new CartItem();
         int quantity = cartItem.getQuantity();
         if (product.isPresent()) {
             newCartItem.setProduct(product.get());
             newCartItem.setQuantity(quantity);
-            newCartItem.setTotal(product.get().getPrice().multiply(new BigDecimal(quantity)));
+            newCartItem.setTotal(new BigDecimal(product.get().getPrice()).multiply(new BigDecimal(quantity)));
             newCartItem.setShoppingCart(shoppingCart);
         }
         return newCartItem;
