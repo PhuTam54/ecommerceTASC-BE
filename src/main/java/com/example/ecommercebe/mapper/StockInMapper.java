@@ -39,7 +39,7 @@ public class StockInMapper {
         stockIn.setExpiryDate(stockInDTO.getExpiryDate());
         stockIn.setManufactureDate(stockInDTO.getManufactureDate());
         stockIn.setProduct(productRepository.findById(stockInDTO.getProduct_id()).orElse(null));
-        stockIn.setClinic(clinicRepository.findById(stockInDTO.getProduct_id()).orElse(null));
+        stockIn.setClinic(clinicRepository.findById(stockInDTO.getClinic_id()).orElse(null));
         stockIn.setStatus(stockInDTO.getStatus());
         return stockIn;
     }

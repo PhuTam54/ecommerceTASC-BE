@@ -46,12 +46,6 @@ public class FeedbackMapper {
             feedback.setParent(parentFeedback);
         }
 
-        if (feedbackDTO.getChildren() != null) {
-            List<Feedback> children = feedbackDTO.getChildren().stream()
-                    .map(this::toEntity)
-                    .collect(Collectors.toList());
-            feedback.setChildren(children);
-        }
 
         return feedback;
     }
@@ -71,8 +65,8 @@ public class FeedbackMapper {
         }
 
         if (feedback.getChildren() != null) {
-            List<FeedbackDTO> children = feedback.getChildren().stream()
-                    .map(this::toDTO)
+            List<String> children = feedback.getChildren().stream()
+                    .map(Feedback::getComment)
                     .collect(Collectors.toList());
             feedbackDTO.setChildren(children);
         }

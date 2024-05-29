@@ -8,6 +8,7 @@ import com.example.ecommercebe.service.CategoryService;
 import com.example.ecommercebe.service.ProductService;
 import com.example.ecommercebe.entities.Product;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import com.example.ecommercebe.dto.ProductDTO;
@@ -38,25 +39,27 @@ public class ProductController {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    @GetMapping("/getAll")
-    public List<ProductDTO> getAllProducts() {
-        return productService.getAllProducts();
+    @GetMapping("/products")
+    public Page<ProductDTO> getAllProducts(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return productService.getAllProducts(PageRequest.of(page, size));
     }
 
-    @GetMapping("/getByName/{name}")
-    public ResponseEntity<ProductDTO> getProductByName(@PathVariable String name) {
+    @GetMapping("/{name}")
+    public ResponseEntity<ProductDTO> getProductByName(@RequestBody String name) {
         ProductDTO product = productService.getProductByName(name);
         if (product == null) {
             throw new NotFoundException("Product not found with id: " + name);
         }
         return ResponseEntity.ok(product);
     }
-    @GetMapping("/getByCategory/{categoryId}")
+    @GetMapping("Categories/{categoryId}")
     public List<ProductDTO> findByCategory(@PathVariable Integer Id) {
         Category category = categoryRepository.findById(Id).orElse(null);
         return productService.findByCategory(category);
     }
-    @PostMapping("/create")
+    @PostMapping("/products")
     public ResponseEntity<?> addProduct(@Valid @RequestBody ProductDTO productDTO, BindingResult result) {
         if (result.hasErrors()) {
             Map<String, String> errors = result.getFieldErrors().stream()
@@ -66,7 +69,7 @@ public class ProductController {
         productService.addProduct(productDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
-    @PutMapping("/updateById/{id}")
+    @PutMapping("/products/{id}")
     public ResponseEntity<?> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductDTO updatedProductDto, BindingResult result) {
         if (result.hasErrors()) {
             Map<String, String> errors = result.getFieldErrors().stream()
@@ -77,7 +80,7 @@ public class ProductController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping("deleteById/{id}")
+    @DeleteMapping("products/{id}")
     public ResponseEntity<?> deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -19,8 +20,9 @@ import java.io.Serializable;
 public class StockId implements Serializable {
 
     @Column(name = "ProductId")
-    private long productId;
+    private Long productId;
 
     @Column(name = "ClinicID")
-    private long clinicId;
+    private Long clinicId;
+
 }

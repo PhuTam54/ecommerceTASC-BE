@@ -3,6 +3,8 @@ package com.example.ecommercebe.repositories;
 import com.example.ecommercebe.dto.ProductDTO;
 import com.example.ecommercebe.entities.Category;
 import com.example.ecommercebe.entities.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
@@ -14,4 +16,5 @@ import java.util.Optional;
 public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpecificationExecutor<Product> {
     Optional<Product> findByName(String name);
     List<Product> findByCategory(Category category);
+    Page<Product> findAll(Pageable pageable);
 }
