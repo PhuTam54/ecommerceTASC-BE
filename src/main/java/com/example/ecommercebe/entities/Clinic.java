@@ -28,6 +28,14 @@ public class Clinic {
     private String openingHours;
     @Column(name = "closing_hours")
     private String closingHours;
-//    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    private List<Feedback> feedbacks;
+
+    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Feedback> feedbacks;
+
+    @OneToMany(mappedBy = "clinic")
+    private List<StockIn> stockIn;
+    @OneToMany(mappedBy = "clinic")
+    private List<StockOut> stockOut;
+    @OneToMany(mappedBy = "clinic")
+    private List<InStock>  inStock;
 }
