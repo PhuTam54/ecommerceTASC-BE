@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @Tag(name = "Stock out", description = "Stock out Controller")
 @CrossOrigin
 @RestController
-@RequestMapping("/stockout")
+@RequestMapping("/api/v1/stockOuts")
 public class StockOutController {
 
     @Autowired
@@ -43,9 +43,9 @@ public class StockOutController {
         return ResponseEntity.ok(stockOutDTO);
     }
 
-    @GetMapping("/{productId}/{clinicId}")
-    public ResponseEntity<List<StockOutDTO>> getAllStockOutByProductAndClinic(@PathVariable long clinicId,
-                                                                              @PathVariable long productId) {
+    @GetMapping("/")
+    public ResponseEntity<List<StockOutDTO>> getAllStockOutByProductAndClinic(@RequestParam(name = "productId") long clinicId,
+                                                                              @RequestParam(name = "clinicId") long productId) {
         List<StockOutDTO> stockOutDTO = stockOutService.getAllStockOutByProductIdAndClinicId(productId,clinicId);
         if (stockOutDTO == null) {
             throw new NotFoundException("Stock not found with ClinicId: " + clinicId);
@@ -64,7 +64,7 @@ public class StockOutController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<?> updateStockOut(@PathVariable long id,
                                             @Valid @RequestBody StockOutDTO stockOutDTO, BindingResult result){
         if (result.hasErrors()) {
@@ -73,10 +73,10 @@ public class StockOutController {
             return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
         }
         stockOutService.updateStockOut(id,stockOutDTO);
-        return new ResponseEntity<>(HttpStatus.UPGRADE_REQUIRED);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteStockOut(@PathVariable long id, BindingResult result) {
         if (result.hasErrors()) {
             Map<String, String> errors = result.getFieldErrors().stream()

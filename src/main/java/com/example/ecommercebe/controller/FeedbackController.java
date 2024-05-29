@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @Tag(name = "Feedback", description = "Feedback Controller")
 @CrossOrigin
 @RestController
-@RequestMapping("/feedback")
+@RequestMapping("/api/v1/feedbacks")
 public class FeedbackController {
 
     @Autowired
@@ -50,10 +50,10 @@ public class FeedbackController {
         return ResponseEntity.ok(feedbackDTO);
     }
 
-    @PostMapping("/{productId}/{clinicId}/{userId}/add")
-    public ResponseEntity<?> addFeedback( @PathVariable("productId") long productId,
-                                          @PathVariable("clinicId") long clinicId,
-                                          @PathVariable("userId") long userId,@RequestBody FeedbackDTO feedbackDTO, BindingResult result) {
+    @PostMapping("/")
+    public ResponseEntity<?> addFeedback( @RequestParam("productId") long productId,
+                                          @RequestParam("clinicId") long clinicId,
+                                          @RequestParam("userId") long userId,@RequestBody FeedbackDTO feedbackDTO, BindingResult result) {
         if (result.hasErrors()) {
             Map<String, String> errors = result.getFieldErrors().stream()
                     .collect(Collectors.toMap(fieldError -> fieldError.getField(), fieldError -> fieldError.getDefaultMessage()));
@@ -66,13 +66,13 @@ public class FeedbackController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<FeedbackDTO> updateFeedback(@PathVariable Integer id, @RequestBody FeedbackDTO feedbackDTO) {
         feedbackService.updateFeedback(id, feedbackDTO);
         return ResponseEntity.ok(feedbackDTO);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteFeedback(@PathVariable Integer id) {
         feedbackService.deleteFeedback(id);
         return ResponseEntity.noContent().build();
