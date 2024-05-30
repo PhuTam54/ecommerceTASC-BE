@@ -38,14 +38,12 @@ public class JwtUtils {
         OAuth2User oauth2User = (OAuth2User) authentication.getPrincipal();
         String username = oauth2User.getAttribute("email");
 
-        // Lấy danh sách roles
         String roles = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
 
         return Jwts.builder()
                 .setSubject(username)
-                .claim("id", oauth2User.getAttribute("id"))
                 .claim("name", oauth2User.getAttribute("name"))
                 .claim("roles", roles)
                 .setIssuedAt(new Date())

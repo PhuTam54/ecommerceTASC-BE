@@ -48,15 +48,16 @@ public class OAuth2Controller {
     public ResponseEntity<?> loginSuccess(Authentication authentication) {
         if (authentication != null && authentication.isAuthenticated()) {
             OAuth2User oauth2User = (OAuth2User) authentication.getPrincipal();
+
             try {
                 String jwt = jwtUtils.generateJwtOAuth2Token(authentication);
 
                 List<String> roles = List.of("ROLE_USER");
 
                 return ResponseEntity.ok(new JwtResponse(jwt,
-                        Long.parseLong(Objects.requireNonNull(oauth2User.getAttribute("id"))),
+                        Long.parseLong((Boolean.TRUE.equals(oauth2User.getAttribute("id"))) ? Objects.requireNonNull(oauth2User.getAttribute("id")) : "0"),
                         oauth2User.getAttribute("name"),
-                        oauth2User.getAttribute("email"),
+                        Boolean.TRUE.equals(oauth2User.getAttribute("email")) ? oauth2User.getAttribute("email") : oauth2User.getAttribute("login"),
                         roles));
             } catch (Exception e){
                 e.printStackTrace();
