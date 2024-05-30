@@ -1,21 +1,38 @@
 package com.example.ecommercebe.controller;
 
 
+import com.example.ecommercebe.models.response.JwtResponse;
+import com.example.ecommercebe.security.jwt.JwtUtils;
+import com.example.ecommercebe.security.service.UserDetailsImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/oauth2")
 public class OAuth2Controller {
+    @Autowired
+    AuthenticationManager authenticationManager;
+    @Autowired
+    JwtUtils jwtUtils;
     @GetMapping("/user")
     public Map<String, Object> user(@AuthenticationPrincipal OAuth2User principal) {
         if (principal == null) {
@@ -28,22 +45,29 @@ public class OAuth2Controller {
         return ResponseEntity.ok("ok");
     }
     @GetMapping("/login-success")
-    public String loginSuccess(Authentication authentication) {
+    public ResponseEntity<?> loginSuccess(Authentication authentication) {
         if (authentication != null && authentication.isAuthenticated()) {
             OAuth2User oauth2User = (OAuth2User) authentication.getPrincipal();
+            try {
+                String jwt = jwtUtils.generateJwtOAuth2Token(authentication);
 
-            // Lấy thông tin người dùng từ OAuth2User
-//            String username = oauth2User.getAttribute("name");
-//            String avatarUrl = oauth2User.getAttribute("avatar_url");
-            // Và các thông tin khác
+                List<String> roles = List.of("ROLE_USER");
 
-            return oauth2User.toString();
+                return ResponseEntity.ok(new JwtResponse(jwt,
+                        Long.parseLong(Objects.requireNonNull(oauth2User.getAttribute("id"))),
+                        oauth2User.getAttribute("name"),
+                        oauth2User.getAttribute("email"),
+                        roles));
+            } catch (Exception e){
+                e.printStackTrace();
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Cannot generate token");
+            }
         } else {
-            return "Đăng nhập thất bại!";
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Authentication failed");
         }
     }
     @GetMapping("/login-failure")
-    public String loginFail() {
-        return "Đăng nhập thất bại!";
+    public ResponseEntity<String> loginFail() {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("UserName or PassWord wrong");
     }
 }

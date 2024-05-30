@@ -12,7 +12,7 @@
             const formData = new FormData(form);
 
             const data = {
-                username: formData.get('username'),
+                userName: formData.get('userName'),
                 password: formData.get('password')
             };
 
@@ -41,7 +41,7 @@
         <div class="row">
             <h2 style="text-align:center">Login Page</h2>
             <div class="col">
-                <input type="text" name="username" placeholder="Username" required>
+                <input type="text" name="userName" placeholder="Username" required>
                 <input type="password" name="password" placeholder="Password" required>
                 <input type="submit" value="Login">
             </div>
