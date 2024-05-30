@@ -23,7 +23,7 @@ public interface ClinicRepository extends JpaRepository<Clinic, Long>, JpaSpecif
 
     Optional<Clinic> findByEmail (String email);
 
-    Optional<Clinic> findByName (String email);
+    Optional<Clinic> findByClinicName (String email);
 
     Optional<Clinic> findByPhone (String email);
 

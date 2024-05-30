@@ -54,7 +54,7 @@ public class ClinicServiceImpl implements ClinicService {
             throw new IllegalArgumentException("Clinic email already in use");
         }
 
-        Optional<Clinic> clinicByName = clinicRepository.findByName(clinicDTO.getClinicName());
+        Optional<Clinic> clinicByName = clinicRepository.findByClinicName(clinicDTO.getClinicName());
         if (clinicByName.isPresent()) {
             throw new IllegalArgumentException("Clinic name already in use");
         }
