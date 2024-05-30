@@ -6,10 +6,12 @@ import com.example.ecommercebe.exception.EntityNotFoundException;
 import com.example.ecommercebe.service.ClinicService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @Tag(name = "Clinic", description = "Clinic Controller")
 @CrossOrigin
@@ -21,8 +23,11 @@ public class ClinicController {
     private ClinicService clinicService;
 
     @GetMapping
-    public ResponseEntity<List<Clinic>> getAllClinics() {
-        List<Clinic> clinics = clinicService.getAllClinics();
+    public ResponseEntity<Page<Clinic>> getAllClinics(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Clinic> clinics = clinicService.getAllClinics(pageable);
         return ResponseEntity.ok(clinics);
     }
 
@@ -37,8 +42,13 @@ public class ClinicController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<Clinic>> getClinicsByAddress(@RequestParam String address) {
-        List<Clinic> clinics = clinicService.getClinicByAddress(address);
+    public ResponseEntity<Page<Clinic>> getClinicsByAddress(
+            @RequestParam String address,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Clinic> clinics = clinicService.getClinicByAddress(address, pageable);
         return ResponseEntity.ok(clinics);
     }
 

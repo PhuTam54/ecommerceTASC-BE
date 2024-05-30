@@ -13,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -29,6 +28,7 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
     }
+
     public Page<UserDTO> getAll(Pageable pageable) {
         Page<User> userPage = userRepository.findByDeletedAtIsNull(pageable);
         Page<UserDTO> userDTOPage = userPage.map(UserMapper.INSTANCE::userToUserDTO);
@@ -40,6 +40,7 @@ public class UserServiceImpl implements UserService {
         Page<UserDTO> userDTOPage = userPage.map(UserMapper.INSTANCE::userToUserDTO);
         return userDTOPage;
     }
+  
     public UserDTO findById(Long id) {
         User user = userRepository.findById(id).orElse(null);
         if (user == null) {
@@ -158,10 +159,9 @@ public class UserServiceImpl implements UserService {
         User savedUser = userRepository.save(user);
         return UserMapper.INSTANCE.userToUserDTO(savedUser);
     }
+  
     public void deleteById(Long id) {
         userRepository.deleteById(id);
     }
-
-
 
 }

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -30,14 +31,23 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+
+    @OneToMany(mappedBy = "product")
+    private Set<FavoriteProducts> favoriteProducts;
+  
     @OneToMany(mappedBy = "product")
     private List<StockOut> stockOuts;
+  
     @OneToMany(mappedBy = "product")
     private List<StockIn> stockIns;
+  
     @OneToMany(mappedBy = "product")
     private List<InStock> inStocks;
+  
     @OneToMany(mappedBy = "product")
     private List<Feedback> feedbacks;
+  
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
     private ProductDetail productDetail;
+
 }
