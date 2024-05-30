@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @Tag(name = "Category", description = "Category Controller")
 @CrossOrigin
 @RestController
-@RequestMapping("/api/v1/Categories")
+@RequestMapping("/api/v1/categories")
 public class CategoryController {
 
     @Autowired
