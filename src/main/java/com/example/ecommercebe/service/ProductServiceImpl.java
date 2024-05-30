@@ -1,6 +1,7 @@
 package com.example.ecommercebe.service;
 
 import com.example.ecommercebe.dto.ProductDTO;
+
 import com.example.ecommercebe.entities.Category;
 import com.example.ecommercebe.mapper.ProductMapper;
 import com.example.ecommercebe.repositories.ProductRepository;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepository productRepository;
+
     @Autowired
     private CategoryService categoryService;
     @Autowired
@@ -34,9 +36,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDTO getProductByName(String name) {
-        return
-                productMapper.toDTO(productRepository.findByName(name).orElse(null));
-
+        return productMapper.toDTO(productRepository.findByName(name).orElse(null));
     }
 
     @Override
@@ -65,4 +65,5 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProduct(long id) {
         productRepository.deleteById(id);
     }
+
 }

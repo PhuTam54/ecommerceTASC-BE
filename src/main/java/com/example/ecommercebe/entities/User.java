@@ -50,9 +50,13 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "user")
     @JsonBackReference
     private Set<Order> orders;
+
     @OneToOne(mappedBy = "user")
     @JsonBackReference
     private ShoppingCart shoppingCart;
+
+    @OneToMany(mappedBy = "user")
+    private Set<FavoriteProducts> favoriteProducts;
 
     public User(String username, String email, String password) {
         this.username = username;

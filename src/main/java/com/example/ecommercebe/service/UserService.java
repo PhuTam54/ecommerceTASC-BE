@@ -14,4 +14,5 @@ public interface UserService {
     UserDTO findById(Long id);
     UserDTO findByUsername(String username);
     void moveToTrash(Long id);
+
 }
