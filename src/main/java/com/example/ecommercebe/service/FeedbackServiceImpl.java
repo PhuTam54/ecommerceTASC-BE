@@ -1,16 +1,21 @@
 package com.example.ecommercebe.service;
 
 import com.example.ecommercebe.dto.FeedbackDTO;
+import com.example.ecommercebe.entities.Clinic;
 import com.example.ecommercebe.entities.Feedback;
 import com.example.ecommercebe.entities.Product;
+import com.example.ecommercebe.entities.User;
 import com.example.ecommercebe.mapper.FeedbackMapper;
+import com.example.ecommercebe.repositories.ClinicRepository;
 import com.example.ecommercebe.repositories.FeedbackRepository;
 import com.example.ecommercebe.repositories.ProductRepository;
+import com.example.ecommercebe.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,10 +27,23 @@ public class FeedbackServiceImpl implements FeedbackService {
     @Autowired
     private FeedbackMapper feedbackMapper;
 
+    @Autowired
+    private ClinicRepository clinicRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
 
     @Override
     public List<FeedbackDTO> getAllFeedbackByProductId(long productId) {
-            List<Feedback> feedbackList = feedbackRepository.findByProductId(productId);
+            Optional<Product> product = productRepository.findById(productId);
+            if(!product.isPresent()){
+                throw new RuntimeException("Không tìm thấy product");
+            }
+            List<Feedback> feedbackList = feedbackRepository.findByProduct(product.get());
             return feedbackList.stream()
                     .map(feedbackMapper::toDTO)
                     .collect(Collectors.toList());
@@ -33,7 +51,11 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     @Override
     public List<FeedbackDTO> getAllFeedbackByClinicId(long clinicId) {
-        List<Feedback> feedbackList = feedbackRepository.findByClinicId(clinicId);
+        Optional<Clinic> clinic = clinicRepository.findById(clinicId);
+        if(!clinic.isPresent()){
+            throw new RuntimeException("Không tìm thấy clinic");
+        }
+        List<Feedback> feedbackList = feedbackRepository.findByClinic(clinic.get());
         return feedbackList.stream()
                 .map(feedbackMapper::toDTO)
                 .collect(Collectors.toList());
@@ -41,7 +63,11 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     @Override
     public List<FeedbackDTO> getAllFeedbackByUserId(long userId) {
-        List<Feedback> feedbackList = feedbackRepository.findByUserId(userId);
+        Optional<User> user = userRepository.findById(userId);
+        if(!user.isPresent()){
+            throw new RuntimeException("Không tìm thấy clinic");
+        }
+        List<Feedback> feedbackList = feedbackRepository.findByUser(user.get());
         return feedbackList.stream()
                 .map(feedbackMapper::toDTO)
                 .collect(Collectors.toList());

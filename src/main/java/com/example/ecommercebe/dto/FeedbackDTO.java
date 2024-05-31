@@ -12,10 +12,10 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FeedbackDTO {
-    private long id;
+    private Long id;
     private String comment;
     private long product_id;
-    private long parent_id;
+    private Long parent_id;
     private long clinic_id;
     private long user_id;
     private int rating;

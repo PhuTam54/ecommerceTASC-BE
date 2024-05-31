@@ -1,11 +1,10 @@
 package com.example.ecommercebe.mapper;
 
 import com.example.ecommercebe.dto.FeedbackDTO;
-import com.example.ecommercebe.entities.Clinic;
-import com.example.ecommercebe.entities.Feedback;
-import com.example.ecommercebe.entities.Product;
-import com.example.ecommercebe.entities.User;
+import com.example.ecommercebe.entities.*;
+import com.example.ecommercebe.exception.CategoryNotFoundException;
 import com.example.ecommercebe.repositories.ClinicRepository;
+import com.example.ecommercebe.repositories.FeedbackRepository;
 import com.example.ecommercebe.repositories.ProductRepository;
 import com.example.ecommercebe.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +22,9 @@ public class FeedbackMapper {
     private ClinicRepository clinicRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private FeedbackRepository feedbackRepository;
+
 
     public Feedback toEntity(FeedbackDTO feedbackDTO) {
         Feedback feedback = new Feedback();
@@ -40,10 +42,10 @@ public class FeedbackMapper {
         User user = userRepository.findById(feedbackDTO.getUser_id()).orElse(null);
         feedback.setUser(user);
 
-        if (feedbackDTO.getParent_id() != 0) {
-            Feedback parentFeedback = new Feedback();
-            parentFeedback.setId(feedbackDTO.getParent_id());
-            feedback.setParent(parentFeedback);
+        if (feedbackDTO.getParent_id() != null) {
+            Feedback parent = feedbackRepository.findById(feedbackDTO.getParent_id())
+                    .orElseThrow(() -> new CategoryNotFoundException("Parent category not found with id: " + feedbackDTO.getParent_id()));
+            feedback.setParent(parent);
         }
 
 
@@ -60,17 +62,16 @@ public class FeedbackMapper {
         feedbackDTO.setClinic_id(feedback.getClinic().getId());
         feedbackDTO.setUser_id(feedback.getUser().getId());
 
-        if (feedback.getParent().getId() != 0) {
+        if (feedback.getParent() != null) {
             feedbackDTO.setParent_id(feedback.getParent().getId());
         }
 
-        if (feedback.getChildren() != null) {
-            List<String> children = feedback.getChildren().stream()
-                    .map(Feedback::getComment)
-                    .collect(Collectors.toList());
-            feedbackDTO.setChildren(children);
-        }
-
+        Long parentId = (feedback.getParent() != null) ? feedback.getParent().getId() : null;
+        feedbackDTO.setParent_id(parentId);
+        List<String> childrenNames = feedback.getChildren().stream()
+                .map(Feedback::getComment)
+                .collect(Collectors.toList());
+        feedbackDTO.setChildren(childrenNames);
         return feedbackDTO;
     }
 }
