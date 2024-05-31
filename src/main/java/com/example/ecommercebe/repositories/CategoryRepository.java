@@ -1,7 +1,8 @@
 package com.example.ecommercebe.repositories;
 
 import com.example.ecommercebe.entities.Category;
-//import com.example.demojpa.entities.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -21,6 +22,10 @@ public interface CategoryRepository extends JpaRepository<Category, Integer>, Jp
     List<Category> findByParent(Category parent);
 
     List<Category> findByParentIsNull();
+    Page<Category> findByParentIsNullAndDeletedAtIsNull(Pageable pageable);
 
     List<Category> findByParentIsNotNull();
+
+    Page<Category> findByDeletedAtIsNotNull(Pageable pageable);
+    Page<Category> findByDeletedAtIsNull(Pageable pageable);
 }
