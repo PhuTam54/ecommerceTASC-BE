@@ -1,15 +1,24 @@
 package com.example.ecommercebe.service;
 
+import com.example.ecommercebe.dto.UserDTO;
 import com.example.ecommercebe.entities.Category;
 import com.example.ecommercebe.dto.CategoryDTO;
+import com.example.ecommercebe.entities.User;
 import com.example.ecommercebe.exception.CategoryNotFoundException;
 import com.example.ecommercebe.mapper.CategoryMapper;
+import com.example.ecommercebe.mapper.UserMapper;
 import com.example.ecommercebe.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.parameters.P;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CategoryServiceImpl implements CategoryService{
@@ -18,11 +27,8 @@ public class CategoryServiceImpl implements CategoryService{
     private CategoryRepository categoryRepository;
 
     @Override
-    public List<CategoryDTO> getAllCategory() {
-        List<CategoryDTO> category = new ArrayList<>();
-        for (Category categories: categoryRepository.findAll()) {
-            category.add(CategoryMapper.toDTO(categories));
-        }
+    public Page<CategoryDTO> getAllCategory(Pageable pageable) {
+        Page<CategoryDTO> category = categoryRepository.findByDeletedAtIsNull(pageable).map(CategoryMapper::toDTO);
         return category;
     }
 
@@ -90,22 +96,32 @@ public class CategoryServiceImpl implements CategoryService{
     }
 
     public List<CategoryDTO> getCategoryByParent(Category parent) {
-        List<Category> category = categoryRepository.findByParent(parent);
+        List<CategoryDTO> category = categoryRepository.findByParent(parent).stream().map(CategoryMapper::toDTO).collect(Collectors.toList());
 
-        List<CategoryDTO> category1 = new ArrayList<>();
-        for (Category categories: category) {
-            category1.add(CategoryMapper.toDTO(categories));
-        }
-        return category1;
-    }
-
-    public List<CategoryDTO> getCategoryByParentIsNull(){
-        List<CategoryDTO> category = new ArrayList<>();
-        for (Category categories: categoryRepository.findByParentIsNull()) {
-            category.add(CategoryMapper.toDTO(categories));
-        }
         return category;
     }
 
+    public Page<CategoryDTO> getCategoryByParentIsNull(Pageable pageable){
+        Page<Category> category = categoryRepository.findByParentIsNullAndDeletedAtIsNull(pageable);
+        Page<CategoryDTO> categoryDTOS= category.map(CategoryMapper:: toDTO);
+        return categoryDTOS;
+    }
+
+    public void moveToTrash(Integer id) {
+        Category category = categoryRepository.findById(id).orElse(null);
+        if (category == null) {
+            throw new UsernameNotFoundException("Cannot find this category id: " + id);
+        }
+        LocalDateTime now = LocalDateTime.now();
+        category.setDeletedAt(now);
+        categoryRepository.save(category);
+    }
+
+    @Override
+    public Page<CategoryDTO> getInTrash(Pageable pageable) {
+        Page<Category> categories = categoryRepository.findByDeletedAtIsNotNull(pageable);
+        Page<CategoryDTO> categoryDTOS = categories.map(CategoryMapper::toDTO);
+        return categoryDTOS;
+    }
 
 }
