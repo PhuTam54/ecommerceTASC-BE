@@ -22,6 +22,7 @@ public class UserDTO {
     private String phoneNumber;
     private String dateOfBirth;
     private String gender;
+    private String avatar;
     private Set<Role> roles = new HashSet<>();
 
     public UserDTO(User user) {

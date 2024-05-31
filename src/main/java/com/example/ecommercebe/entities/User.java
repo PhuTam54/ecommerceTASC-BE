@@ -40,6 +40,8 @@ public class User extends BaseEntity {
     private String dateOfBirth;
     @Column(name = "gender")
     private String gender;
+    @Column(name = "avatar")
+    private String avatar;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(	name = "user_roles",

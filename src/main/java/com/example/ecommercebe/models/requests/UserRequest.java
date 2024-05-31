@@ -19,5 +19,6 @@ public class UserRequest {
     private String phoneNumber;
     private String gender;
     private String dateOfBirth;
+    private String avatar;
     private Set<String> roles;
 }

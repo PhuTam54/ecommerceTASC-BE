@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 @CrossOrigin()
 @Valid
 @RestController
-@RequestMapping("/api/v1/product")
+@RequestMapping("/api/v1/products")
 public class ProductController {
     @Autowired
     private ProductService productService;
@@ -39,7 +39,7 @@ public class ProductController {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    @GetMapping("/products")
+    @GetMapping()
     public Page<ProductDTO> getAllProducts(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
@@ -59,7 +59,7 @@ public class ProductController {
         Category category = categoryRepository.findById(Id).orElse(null);
         return productService.findByCategory(category);
     }
-    @PostMapping("/products")
+    @PostMapping()
     public ResponseEntity<?> addProduct(@Valid @RequestBody ProductDTO productDTO, BindingResult result) {
         if (result.hasErrors()) {
             Map<String, String> errors = result.getFieldErrors().stream()
@@ -69,7 +69,7 @@ public class ProductController {
         productService.addProduct(productDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
-    @PutMapping("/products/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<?> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductDTO updatedProductDto, BindingResult result) {
         if (result.hasErrors()) {
             Map<String, String> errors = result.getFieldErrors().stream()
@@ -80,7 +80,7 @@ public class ProductController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping("products/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
