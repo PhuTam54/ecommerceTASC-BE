@@ -11,13 +11,11 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 public class ProductDTO {
     private long Id;
-    @NotNull(message = "Name is mandatory")
     private String name;
     private String description;
     private String detail;
-    private double price;
+    private Double price;
     private String Manufacturer;
-    @NotNull(message = "Category ID is mandatory")
-    private long categoryId;
+    private Integer categoryId;
 //    private MultipartFile productImage;
 }

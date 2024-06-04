@@ -114,7 +114,7 @@ public class CategoryServiceImpl implements CategoryService{
     public void moveToTrash(Integer id) {
         Category category = categoryRepository.findById(id).orElse(null);
         if (category == null) {
-            throw new UsernameNotFoundException("Cannot find this category id: " + id);
+            throw new CategoryNotFoundException("Cannot find this category id: " + id);
         }
         LocalDateTime now = LocalDateTime.now();
         category.setDeletedAt(now);

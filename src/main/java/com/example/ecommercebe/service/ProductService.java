@@ -12,9 +12,11 @@ import java.util.List;
 @Service
 public interface ProductService {
     Page<ProductDTO> getAllProducts(Pageable pageable);
-    ProductDTO getProductByName(String name);
-    List<ProductDTO> findByCategory(Category category);
+    Page<ProductDTO> getProductByName(Pageable pageable,String name);
+    Page<ProductDTO> findByCategory(Pageable pageable,Category category);
     void addProduct(ProductDTO productDTO);
     void updateProduct(long id, ProductDTO updatedProductDTO);
     void deleteProduct(long id);
+    void moveToTrash(Long id);
+    Page<ProductDTO> getInTrash(Pageable pageable);
 }
