@@ -11,6 +11,7 @@ import lombok.Setter;
 @Setter
 public class CartItemRequest {
     private Long productId;
+    private Long clinicId;
     private Long userId; // to find shopping cart
     private Integer quantity;
 }

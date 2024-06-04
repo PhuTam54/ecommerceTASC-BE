@@ -22,6 +22,10 @@ public class CartItem {
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     @MapsId("productId")
     private Product product;
+    @OneToOne
+    @JoinColumn(name = "clinic_id", referencedColumnName = "id")
+    @MapsId("clinicId")
+    private Clinic clinic;
     @ManyToOne
     @MapsId("shoppingCartId")
     @JoinColumn(name = "shopping_cart_id", referencedColumnName = "id")
