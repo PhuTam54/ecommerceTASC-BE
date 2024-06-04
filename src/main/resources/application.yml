@@ -25,16 +25,19 @@ spring:
           github:
             client-id: Ov23li5fRSLhcmlB7nDs
             client-secret: 729963bd07baffdc0830c6a8afdbc2434ccc2892
+            redirect-uri: ${application.returnUrl}
             # scope: email, public_profile
           google:
 #            client-id: 1086239543051-slijoqf2pnhskd4q2d4qg89uuod0p8cl.apps.googleusercontent.com
 #            client-secret: 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
             client-id: 1086239543051-ug33jsc1pdhsaai2kna5gk69kutdd1re.apps.googleusercontent.com
             client-secret: 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
+            redirect-uri: ${application.returnUrl}
+
           facebook:
             client-id: 1632890864218116
             client-secret: 80be9bb154d02c8fc043624aab30c788
-
+            redirect-uri: ${application.returnUrl}
 server:
   port: 8081
 
@@ -47,10 +50,11 @@ logging:
 
 bezkoder:
   openapi:
-    dev-url: http://localhost:8080
+    dev-url: http://localhost:8081
 
 application:
   jwtExpirationMs: 86400000
+  returnUrl: http://localhost:4200
 
 cloudinary:
   cloud-name: dptyuisjr

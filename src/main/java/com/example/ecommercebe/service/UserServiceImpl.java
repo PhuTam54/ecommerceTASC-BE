@@ -118,6 +118,9 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             return null;
         }
+
+        String oldPassword = user.getPassword();
+
         BeanUtils.copyProperties(userRequest, user);
 
         Set<String> strRoles = userRequest.getRoles();
@@ -149,24 +152,19 @@ public class UserServiceImpl implements UserService {
             });
         }
 
-        if (userRequest.getPassword() != null && !(userRequest.getPassword().length() > 0)) {
-            String password = encoder.encode(userRequest.getPassword());
-            user.setPassword(password);
+        if (userRequest.getPassword() != null && userRequest.getPassword().length() >= 6){
+            user.setPassword(encoder.encode(userRequest.getPassword()));
         } else {
-            user.setPassword(user.getPassword());
+            user.setPassword(oldPassword);
         }
 
         if (userRequest.getRoles() != null && userRequest.getRoles().size() > 0 ){
             user.setRoles(roles);
-        } else {
-            user.setRoles(user.getRoles());
         }
 
         if (userRequest.getAvatar() != null && !Objects.equals(user.getAvatar(),
-                userRequest.getAvatar().substring(userRequest.getAvatar().lastIndexOf('/') + 1))){
+            userRequest.getAvatar().substring(userRequest.getAvatar().lastIndexOf('/') + 1))){
             user.setAvatar(userRequest.getAvatar());
-        } else {
-            user.setAvatar(user.getAvatar());
         }
 
         User savedUser = userRepository.save(user);

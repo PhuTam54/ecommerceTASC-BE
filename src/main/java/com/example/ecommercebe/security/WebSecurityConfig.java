@@ -12,6 +12,8 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -55,22 +57,21 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable())  // Vô hiệu hóa CSRF
+        http.csrf(AbstractHttpConfigurer::disable)  // Vô hiệu hóa CSRF
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
                             .requestMatchers("/oauth2/user").authenticated()
-                            .requestMatchers("/api/user/**").authenticated() // Yêu cầu xác thực cho /api/v1/**
+//                            .requestMatchers("/api/v1/users/**").authenticated() // Yêu cầu xác thực cho /api/v1/**
                             .requestMatchers("/api/private/**").hasRole("ADMIN")//.anyRequest().hasAnyRole("ADMIN") // Yêu cầu xác thực cho /api/private/**
-                            .requestMatchers("/api/auth/logout").authenticated()
-                            .requestMatchers("/oauth2/login-success").authenticated()
+                            .requestMatchers("/api/v1/auth/logout").authenticated()
+//                            .requestMatchers("/oauth2/login-success").authenticated()
                             .anyRequest().permitAll() // Mở quyền truy cập cho tất cả các yêu cầu khác
                 )
 //                .sessionManagement(sessionManagement ->
 //                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 //                )
                 .headers(headers -> headers
-                        .frameOptions(frameOptions -> frameOptions
-                                .sameOrigin()
+                        .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin
                         )
                 )
                 .addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class)
