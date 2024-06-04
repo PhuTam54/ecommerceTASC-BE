@@ -23,10 +23,10 @@ public class OpenAPIConfig {
         License mitLicense = new License().name("MIT License").url("https://choosealicense.com/licenses/mit/");
 
         Info info = new Info()
-                .title("Student Management API")
+                .title("Clinics Management API")
                 .version("1.0")
                 .contact(contact)
-                .description("This API exposes endpoints to manage student.").termsOfService("https://google.com")
+                .description("This API exposes endpoints to manage clinics.").termsOfService("https://google.com")
                 .license(mitLicense);
 
         SecurityScheme securityScheme = new SecurityScheme()
