@@ -89,4 +89,23 @@ public class OrderService {
 
         return ordersPage;
     }
+
+    public Order findById(String id){
+        return orderRepository.findById(id).orElse(null);
+    }
+    public Order save(Order order){
+        return orderRepository.save(order);
+    }
+    public Order createOrder(Order order){
+        return orderRepository.save(order);
+    }
+
+    public Object updateOrder(Order order) {
+        return orderRepository.save(order);
+    }
+
+    public Object deleteOrder(String id) {
+        orderRepository.deleteById(id);
+        return "Order deleted"; // not recommended
+    }
 }

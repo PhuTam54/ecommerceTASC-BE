@@ -27,6 +27,11 @@ public class OrderDetail {
     @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false)
     @JsonManagedReference
     private Product product;
+    @ManyToOne
+    @MapsId("clinicId")
+    @JoinColumn(name = "clinic_id", referencedColumnName = "id", nullable = false)
+    @JsonManagedReference
+    private Clinic clinic;
     private Integer quantity;
     private BigDecimal unitPrice;
 }
