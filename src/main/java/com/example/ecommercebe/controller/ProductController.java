@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Tag(name = "Product", description = "Product Controller")
@@ -41,23 +42,30 @@ public class ProductController {
 
     @GetMapping()
     public Page<ProductDTO> getAllProducts(
-            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int size) {
-        return productService.getAllProducts(PageRequest.of(page, size));
+        return productService.getAllProducts(PageRequest.of(page -1, size));
     }
 
     @GetMapping("/{name}")
-    public ResponseEntity<ProductDTO> getProductByName(@RequestBody String name) {
-        ProductDTO product = productService.getProductByName(name);
+    public ResponseEntity<?> getProductByName(@RequestParam(defaultValue = "1") int page,
+                                                       @RequestParam(defaultValue = "10") int limit,
+                                                       @RequestParam String name) {
+        Page<ProductDTO> product = productService.getProductByName(PageRequest.of(page-1,limit), name);
         if (product == null) {
             throw new NotFoundException("Product not found with id: " + name);
         }
         return ResponseEntity.ok(product);
     }
     @GetMapping("Categories/{categoryId}")
-    public List<ProductDTO> findByCategory(@PathVariable Integer Id) {
-        Category category = categoryRepository.findById(Id).orElse(null);
-        return productService.findByCategory(category);
+    public Page<ProductDTO> findByCategory( @RequestParam(defaultValue = "1") int page,
+                                            @RequestParam(defaultValue = "10") int limit,
+                                            @PathVariable Integer categoryId) {
+        Optional<Category> category = categoryRepository.findById(categoryId);
+        if(!category.isPresent()){
+            throw new RuntimeException("Can not find category with id " + categoryId);
+        }
+        return productService.findByCategory(PageRequest.of(page-1, limit),category.get());
     }
     @PostMapping()
     public ResponseEntity<?> addProduct(@Valid @RequestBody ProductDTO productDTO, BindingResult result) {
@@ -82,7 +90,7 @@ public class ProductController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteProduct(@PathVariable Long id) {
-        productService.deleteProduct(id);
+        productService.moveToTrash(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
@@ -102,5 +110,10 @@ public class ProductController {
             errors.put(error.getField(), error.getDefaultMessage());
         });
         return errors;
+    }
+
+    @GetMapping("/trash")
+    public ResponseEntity<?> getInTrashCategory(@RequestParam(name = "page", defaultValue = "1") int page, @RequestParam(name = "limit", defaultValue = "10") int limit){
+        return ResponseEntity.ok(productService.getInTrash(PageRequest.of(page -1, limit)));
     }
 }
