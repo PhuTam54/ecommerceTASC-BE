@@ -24,7 +24,7 @@ public class CartController {
     }
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<?> getUserCart(@RequestParam(name = "userId") Long userId) {
-        ShoppingCart shoppingCart = cartService.findShoppingCartByUserId(userId);
+        ShoppingCart shoppingCart = cartService.findShoppingCartByUserId(Math.toIntExact(userId));
         if (shoppingCart != null){
             return ResponseEntity.ok(shoppingCart);
         }

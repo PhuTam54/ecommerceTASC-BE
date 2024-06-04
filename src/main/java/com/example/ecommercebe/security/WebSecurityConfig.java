@@ -58,21 +58,31 @@ public class WebSecurityConfig {
         http.csrf(csrf -> csrf.disable())  // Vô hiệu hóa CSRF
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/api/v1/user/**").authenticated() // Yêu cầu xác thực cho /api/v1/**
-                                .requestMatchers("/api/private/**").hasRole("ADMIN")//.anyRequest().hasAnyRole("ADMIN") // Yêu cầu xác thực cho /api/private/**
-                                .requestMatchers("/api/auth/logout").authenticated()
-                                .anyRequest().permitAll() // Mở quyền truy cập cho tất cả các yêu cầu khác
+                            .requestMatchers("/oauth2/user").authenticated()
+                            .requestMatchers("/api/user/**").authenticated() // Yêu cầu xác thực cho /api/v1/**
+                            .requestMatchers("/api/private/**").hasRole("ADMIN")//.anyRequest().hasAnyRole("ADMIN") // Yêu cầu xác thực cho /api/private/**
+                            .requestMatchers("/api/auth/logout").authenticated()
+                            .requestMatchers("/oauth2/login-success").authenticated()
+                            .anyRequest().permitAll() // Mở quyền truy cập cho tất cả các yêu cầu khác
                 )
-                .sessionManagement(sessionManagement ->
-                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                )
+//                .sessionManagement(sessionManagement ->
+//                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                )
                 .headers(headers -> headers
                         .frameOptions(frameOptions -> frameOptions
                                 .sameOrigin()
                         )
                 )
                 .addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler); // Thêm bộ lọc JWT;
+                .exceptionHandling(exceptionHandling ->
+                        exceptionHandling.authenticationEntryPoint(unauthorizedHandler) // Xử lý lỗi xác thực
+                )
+                .oauth2Login(oauth2Login ->
+                        oauth2Login
+                                .loginPage("/login")
+                                .defaultSuccessUrl("/oauth2/login-success")
+                                .failureUrl("/oauth2/login-failure")
+                ); // Thêm bộ lọc JWT;
 
         return http.build();
     }

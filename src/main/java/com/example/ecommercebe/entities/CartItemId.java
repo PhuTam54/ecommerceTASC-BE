@@ -14,7 +14,7 @@ import java.io.Serializable;
 @Embeddable
 public class CartItemId implements Serializable {
     @Column(name = "product_id")
-    private Integer productId;
+    private Long productId;
     @Column(name = "shopping_cart_id")
     private Integer shoppingCartId;
 }

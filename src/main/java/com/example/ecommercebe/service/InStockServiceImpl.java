@@ -71,8 +71,8 @@ public class InStockServiceImpl implements InStockService{
         } else throw new RuntimeException("Không tìm thấy InStock với clinic_id" + clinicId);
         List<InStock> inStocks = inStockRepository.findInStockByProductAndClinic(product1,clinic1);
         return inStocks.stream()
-            .map(InStockMapper::toDTO)
-            .collect(Collectors.toList());
+                .map(InStockMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
