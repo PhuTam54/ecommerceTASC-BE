@@ -33,8 +33,10 @@ public class Category extends BaseEntity {
                 '}';
     }
 
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Product> products;
 
-//    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    private List<Product> products;
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<CartItem> cartItems;
 
 }

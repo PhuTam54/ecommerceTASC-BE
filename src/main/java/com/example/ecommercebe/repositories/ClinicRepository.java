@@ -27,4 +27,8 @@ public interface ClinicRepository extends JpaRepository<Clinic, Long>, JpaSpecif
 
     Optional<Clinic> findByPhone (String email);
 
+    Page<Clinic> findByDeletedAtIsNull(Pageable pageable);
+
+    Page<Clinic> findByDeletedAtIsNotNull(Pageable pageable);
+
 }

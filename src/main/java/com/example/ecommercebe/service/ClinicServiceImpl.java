@@ -1,5 +1,6 @@
 package com.example.ecommercebe.service;
 
+import com.example.ecommercebe.controller.ClinicController;
 import com.example.ecommercebe.dto.ClinicDTO;
 import com.example.ecommercebe.entities.Clinic;
 import com.example.ecommercebe.mapper.ClinicMapper;
@@ -18,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+import static java.time.LocalDateTime.now;
+
 @Service
 public class ClinicServiceImpl implements ClinicService {
 
@@ -28,18 +31,22 @@ public class ClinicServiceImpl implements ClinicService {
     private ClinicMapper clinicMapper;
 
     @Override
-    public Clinic getClinicById (long id) {
-        return clinicRepository.findById(id).orElse(null);
+    public ClinicDTO getClinicById (long id) {
+        Clinic clinic = clinicRepository.findById(id).orElse(null);
+        if(clinic==null){
+            throw new RuntimeException("Can not find clinic with id " + id);
+        }
+        return clinicMapper.clinicToClinicDTO(clinic);
     }
 
     @Override
-    public Page<Clinic> getAllClinics(Pageable pageable) {
-        return clinicRepository.findAll(pageable);
+    public Page<ClinicDTO> getAllClinics(Pageable pageable) {
+        return clinicRepository.findByDeletedAtIsNull(pageable).map(clinicMapper::clinicToClinicDTO);
     }
 
     @Override
-    public Page<Clinic> getClinicByAddress (String address, Pageable pageable) {
-        return clinicRepository.findClinicsByAddress(address, pageable);
+    public Page<ClinicDTO> getClinicByAddress (String address, Pageable pageable) {
+        return clinicRepository.findClinicsByAddress(address, pageable).map(clinicMapper::clinicToClinicDTO);
     }
 
     @Override
@@ -75,23 +82,45 @@ public class ClinicServiceImpl implements ClinicService {
         if (!optionalClinic.isPresent()) {
             throw new EntityNotFoundException("Clinic not found with id: " + id);
         }
-
-        Clinic clinic = optionalClinic.get();
-        ClinicMapper.INSTANCE.updateEntityFromDto(clinicDTO, clinic);
-
-        clinicRepository.save(clinic);
+        if(clinicDTO.getClinicName() != null){
+            optionalClinic.get().setClinicName(clinicDTO.getClinicName());
+        }
+        if(clinicDTO.getAddress() != null){
+            optionalClinic.get().setAddress(clinicDTO.getAddress());
+        }
+        if(clinicDTO.getPhone() != null){
+            optionalClinic.get().setPhone(clinicDTO.getPhone());
+        }
+        if(clinicDTO.getEmail() != null){
+            optionalClinic.get().setEmail(clinicDTO.getEmail());
+        }
+        clinicRepository.save(optionalClinic.get());
     }
 
 
     @Override
-    @Transactional
     public void deleteClinic(long id) {
-        Optional<Clinic> optionalClinic = clinicRepository.findById(id);
+        Clinic optionalClinic = clinicRepository.findById(id).orElse(null);
 
-        if (!optionalClinic.isPresent()) {
+        if (optionalClinic == null) {
             throw new EntityNotFoundException("Clinic not found with id: " + id);
         }
+        clinicRepository.delete(optionalClinic);
+    }
 
-        clinicRepository.delete(optionalClinic.get());
+    @Override
+    public void moveToTrash(long id) {
+        Clinic optionalClinic = clinicRepository.findById(id).orElse(null);
+
+        if (optionalClinic == null) {
+            throw new EntityNotFoundException("Clinic not found with id: " + id);
+        }
+        optionalClinic.setDeletedAt(now());
+        clinicRepository.save(optionalClinic);
+    }
+
+    @Override
+    public Page<ClinicDTO> getInTrash(Pageable pageable) {
+        return clinicRepository.findByDeletedAtIsNotNull(pageable).map(clinicMapper::clinicToClinicDTO);
     }
 }

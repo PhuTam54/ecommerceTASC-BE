@@ -51,4 +51,7 @@ public class Product extends BaseEntity {
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
     private ProductDetail productDetail;
 
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<CartItem> cartItems;
+
 }
