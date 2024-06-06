@@ -1,40 +1,41 @@
 package com.example.ecommercebe.service;
 
-import com.example.ecommercebe.dto.UserDTO;
+
 import com.example.ecommercebe.entities.Category;
 import com.example.ecommercebe.dto.CategoryDTO;
-import com.example.ecommercebe.entities.User;
 import com.example.ecommercebe.exception.CategoryNotFoundException;
 import com.example.ecommercebe.mapper.CategoryMapper;
-import com.example.ecommercebe.mapper.UserMapper;
 import com.example.ecommercebe.repositories.CategoryRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.parameters.P;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService{
 
-    @Autowired
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
     @Override
     public Page<CategoryDTO> getAllCategory(Pageable pageable) {
-        Page<CategoryDTO> category = categoryRepository.findByDeletedAtIsNull(pageable).map(CategoryMapper::toDTO);
-        return category;
+        return categoryRepository.findByDeletedAtIsNull(pageable).map(CategoryMapper::toDTO);
     }
 
     @Override
     public CategoryDTO getCategoryById(Integer id) {
-        return CategoryMapper.toDTO(categoryRepository.findById(id).orElse(null));    }
+        Optional<Category> category = categoryRepository.findById(id);
+        if(category.isEmpty()){
+            throw new RuntimeException("Can not find category with id " + id);
+        }
+        return CategoryMapper.toDTO(category.get());
+    }
 
     @Override
     public void addCategory(CategoryDTO categoryDTO) {
@@ -100,15 +101,12 @@ public class CategoryServiceImpl implements CategoryService{
     }
 
     public List<CategoryDTO> getCategoryByParent(Category parent) {
-        List<CategoryDTO> category = categoryRepository.findByParent(parent).stream().map(CategoryMapper::toDTO).collect(Collectors.toList());
-
-        return category;
+        return categoryRepository.findByParent(parent).stream().map(CategoryMapper::toDTO).collect(Collectors.toList());
     }
 
     public Page<CategoryDTO> getCategoryByParentIsNull(Pageable pageable){
         Page<Category> category = categoryRepository.findByParentIsNullAndDeletedAtIsNull(pageable);
-        Page<CategoryDTO> categoryDTOS= category.map(CategoryMapper:: toDTO);
-        return categoryDTOS;
+        return category.map(CategoryMapper:: toDTO);
     }
 
     public void moveToTrash(Integer id) {
@@ -124,8 +122,7 @@ public class CategoryServiceImpl implements CategoryService{
     @Override
     public Page<CategoryDTO> getInTrash(Pageable pageable) {
         Page<Category> categories = categoryRepository.findByDeletedAtIsNotNull(pageable);
-        Page<CategoryDTO> categoryDTOS = categories.map(CategoryMapper::toDTO);
-        return categoryDTOS;
+        return categories.map(CategoryMapper::toDTO);
     }
 
 }

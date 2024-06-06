@@ -1,8 +1,8 @@
 package com.example.ecommercebe.controller;
 
+import com.example.ecommercebe.dto.ShoppingCartDTO;
 import com.example.ecommercebe.entities.CartItem;
 import com.example.ecommercebe.entities.CartItemId;
-import com.example.ecommercebe.entities.ShoppingCart;
 import com.example.ecommercebe.models.requests.CartItemRequest;
 import com.example.ecommercebe.service.CartItemService;
 import com.example.ecommercebe.service.CartService;
@@ -24,7 +24,7 @@ public class CartController {
     }
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<?> getUserCart(@RequestParam(name = "userId") Long userId) {
-        ShoppingCart shoppingCart = cartService.findShoppingCartByUserId(Math.toIntExact(userId));
+        ShoppingCartDTO shoppingCart = cartService.findShoppingCartByUserId(Math.toIntExact(userId));
         if (shoppingCart != null){
             return ResponseEntity.ok(shoppingCart);
         }
@@ -34,7 +34,7 @@ public class CartController {
     public ResponseEntity<?> addItemToCart(@RequestBody CartItemRequest cartItemRequest){
         return ResponseEntity.ok(cartService.saveCartItem(cartItemRequest));
     }
-    @RequestMapping(method = RequestMethod.POST, path = "delete")
+    @RequestMapping(method = RequestMethod.DELETE)
     public ResponseEntity<?> removeCartItem(@RequestBody CartItemId cartItemId){
         CartItem returnResult = cartService.removeCartItem(cartItemId);
         if (returnResult != null) {

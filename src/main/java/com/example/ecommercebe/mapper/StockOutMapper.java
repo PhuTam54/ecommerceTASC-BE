@@ -5,16 +5,14 @@ import com.example.ecommercebe.entities.StockOut;
 import com.example.ecommercebe.repositories.ClinicRepository;
 import com.example.ecommercebe.repositories.ProductRepository;
 import com.example.ecommercebe.statics.enums.Reason;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class StockOutMapper {
-    @Autowired
-    private ProductRepository productRepository;
-
-    @Autowired
-    private ClinicRepository clinicRepository;
+    private final ProductRepository productRepository;
+    private final ClinicRepository clinicRepository;
 
     public StockOutDTO toDTO(StockOut stockOut) {
         StockOutDTO stockOutDTO = new StockOutDTO();

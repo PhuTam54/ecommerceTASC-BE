@@ -5,7 +5,7 @@ import com.example.ecommercebe.entities.*;
 import com.example.ecommercebe.mapper.InStockMapper;
 import com.example.ecommercebe.repositories.*;
 import com.example.ecommercebe.statics.enums.InStockStatus;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -14,22 +14,23 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class InStockServiceImpl implements InStockService{
 
-    @Autowired
-    private InStockRepository inStockRepository;
 
-    @Autowired
-    private ProductRepository productRepository;
+    private final InStockRepository inStockRepository;
 
-    @Autowired
-    private ClinicRepository clinicRepository;
 
-    @Autowired
-    private StockInRepository stockInRepository;
+    private final ProductRepository productRepository;
 
-    @Autowired
-    private StockOutRepository stockOutRepository;
+
+    private final ClinicRepository clinicRepository;
+
+
+    private final StockInRepository stockInRepository;
+
+
+    private final StockOutRepository stockOutRepository;
 
     @Override
     public List<InStockDTO> getInStockByProductId(long productId) {
@@ -60,16 +61,15 @@ public class InStockServiceImpl implements InStockService{
     @Override
     public List<InStockDTO> getInStockByProducIdAndClinicId(long productId, long clinicId) {
         Optional<Product> product = productRepository.findById(productId);
-        Product product1;
-        if(product.isPresent()) {
-            product1 = product.get();
-        } else throw new RuntimeException("Không tìm thấy InStock với product_id" + productId);
+        if(product.isEmpty()) {
+            throw new RuntimeException("Không tìm thấy InStock với product_id" + productId);
+        }
         Optional<Clinic> clinic = clinicRepository.findById(clinicId);
         Clinic clinic1;
         if(clinic.isPresent()) {
             clinic1 = clinic.get();
         } else throw new RuntimeException("Không tìm thấy InStock với clinic_id" + clinicId);
-        List<InStock> inStocks = inStockRepository.findInStockByProductAndClinic(product1,clinic1);
+        List<InStock> inStocks = inStockRepository.findInStockByProductAndClinic(product.get(),clinic1);
         return inStocks.stream()
                 .map(InStockMapper::toDTO)
                 .collect(Collectors.toList());
@@ -81,32 +81,30 @@ public class InStockServiceImpl implements InStockService{
         long quantityStockIn = 0;
         long quantityInStock ;
         Optional<Product> product = productRepository.findById(productId);
-        Product product1;
-        if(product.isPresent()) {
-            product1 = product.get();
-        } else throw new RuntimeException("Không tìm thấy InStock với product_id" + productId);
+        if(product.isEmpty()) {
+            throw new RuntimeException("Không tìm thấy InStock với product_id" + productId);
+        }
         Optional<Clinic> clinic = clinicRepository.findById(clinicId);
-        Clinic clinic1;
-        if(clinic.isPresent()) {
-            clinic1 = clinic.get();
-        } else throw new RuntimeException("Không tìm thấy InStock với clinic_id" + clinicId);
-        List<InStock> inStocks = inStockRepository.findInStockByProductAndClinic(product1,clinic1);
+        if(clinic.isEmpty()) {
+            throw new RuntimeException("Không tìm thấy InStock với clinic_id" + clinicId);
+        }
+        List<InStock> inStocks = inStockRepository.findInStockByProductAndClinic(product.get(),clinic.get());
         if(inStocks.isEmpty()){
             addInStock(productId, clinicId);
         }
-        List<StockOut> stockOut = stockOutRepository.findStockOutByProductAndClinic(product1,clinic1);
+        List<StockOut> stockOut = stockOutRepository.findStockOutByProductAndClinic(product.get(),clinic.get());
         if(!stockOut.isEmpty()){
             for (StockOut stockOut1: stockOut) {
                 quantityStockOut += stockOut1.getQuantity();
             }
         }
-        List<StockIn> stockIn = stockInRepository.findStockInByProductAndClinic(product1,clinic1);
+        List<StockIn> stockIn = stockInRepository.findStockInByProductAndClinic(product.get(),clinic.get());
         if(!stockIn.isEmpty()){
             for (StockIn stockIn1: stockIn) {
                 quantityStockIn += stockIn1.getQuantity();
             }
         }
-        List<InStock> inStock1 = inStockRepository.findInStockByProductAndClinic(product1,clinic1);
+        List<InStock> inStock1 = inStockRepository.findInStockByProductAndClinic(product.get(),clinic.get());
         InStock inStock = inStock1.get(0);
         quantityInStock = quantityStockIn - quantityStockOut;
         inStock.setStockQuantity(quantityInStock);
@@ -127,25 +125,20 @@ public class InStockServiceImpl implements InStockService{
     }
 
     public void addInStock(long product_id, long clinic_id){
-//        StockId stockId = new StockId();
-//        stockId.setProductId(product_id);
-//        stockId.setClinicId(clinic_id);
+
         InStock inStock = new InStock();
 
         inStock.setStockQuantity(0);
         Optional<Product> product = productRepository.findById(product_id);
-        Product product1;
-        if(product.isPresent()) {
-            product1 = product.get();
-        } else throw new RuntimeException("Không tìm thấy InStock với product_id" + product_id);
-
+        if(product.isEmpty()) {
+            throw new RuntimeException("Không tìm thấy InStock với product_id" + product_id);
+        }
+        inStock.setProduct(product.get());
         Optional<Clinic> clinic = clinicRepository.findById(clinic_id);
-        Clinic clinic1;
-        if(clinic.isPresent()) {
-            clinic1 = clinic.get();
-        } else throw new RuntimeException("Không tìm thấy InStock với clinic_id" + clinic_id);
-        inStock.setProduct(product1);
-        inStock.setClinic(clinic1);
+        if(clinic.isEmpty()) {
+            throw new RuntimeException("Không tìm thấy InStock với clinic_id" + clinic_id);
+        }
+        inStock.setClinic(clinic.get());
         inStock.setLastUpdated(LocalDateTime.now());
         inStockRepository.save(inStock);
     }

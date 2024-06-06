@@ -5,16 +5,16 @@ import com.example.ecommercebe.dto.StockInDTO;
 import com.example.ecommercebe.entities.StockIn;
 import com.example.ecommercebe.repositories.ClinicRepository;
 import com.example.ecommercebe.repositories.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import lombok.RequiredArgsConstructor;import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class StockInMapper {
-    @Autowired
-    private ProductRepository productRepository;
 
-    @Autowired
-    private ClinicRepository clinicRepository;
+    private final ProductRepository productRepository;
+
+
+    private final ClinicRepository clinicRepository;
 
     public StockInDTO toDTO(StockIn stockIn) {
         StockInDTO stockInDTO = new StockInDTO();

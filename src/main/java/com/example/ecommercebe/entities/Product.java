@@ -52,6 +52,9 @@ public class Product extends BaseEntity {
     private ProductDetail productDetail;
 
     @OneToMany(fetch = FetchType.LAZY)
-    private List<CartItem> cartItems;
+    private List<ShoppingCart> shoppingCarts;
+
+    @OneToOne
+    private CartItem cartItem;
 
 }

@@ -9,7 +9,7 @@ import com.example.ecommercebe.repositories.ClinicRepository;
 import com.example.ecommercebe.repositories.ProductRepository;
 import com.example.ecommercebe.repositories.StockOutRepository;
 import com.example.ecommercebe.statics.enums.Reason;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,19 +17,20 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class StockOutServiceImpl implements StockOutService{
 
-    @Autowired
-    private StockOutRepository stockOutRepository;
 
-    @Autowired
-    private StockOutMapper stockOutMapper;
+    private final StockOutRepository stockOutRepository;
 
-    @Autowired
-    private ProductRepository productRepository;
 
-    @Autowired
-    private ClinicRepository clinicRepository;
+    private final StockOutMapper stockOutMapper;
+
+
+    private final ProductRepository productRepository;
+
+
+    private final ClinicRepository clinicRepository;
 
     @Override
     public List<StockOutDTO> getAllStockOutByProductId(long productId) {

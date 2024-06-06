@@ -7,7 +7,6 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.*;
 
 import java.util.List;
 
@@ -46,5 +45,8 @@ public class Clinic extends BaseEntity {
     private List<InStock>  inStock;
 
     @OneToMany(fetch = FetchType.LAZY)
-    private List<CartItem> cartItems;
+    private List<ShoppingCart> shoppingCarts;
+
+    @OneToOne
+    private CartItem cartItem;
 }

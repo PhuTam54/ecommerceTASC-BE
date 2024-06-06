@@ -1,8 +1,11 @@
 package com.example.ecommercebe.service;
 
+import com.example.ecommercebe.dto.ShoppingCartDTO;
 import com.example.ecommercebe.entities.*;
+import com.example.ecommercebe.mapper.ShoppingCartMapper;
 import com.example.ecommercebe.models.requests.CartItemRequest;
 import com.example.ecommercebe.repositories.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -11,23 +14,20 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
+@RequiredArgsConstructor
 public class CartService {
-    private CartItemRepository cartItemRepository;
-    private ShoppingCartRepository shoppingCartRepository;
-    private ProductRepository productRepository;
-    private ClinicRepository clinicRepository;
-    private UserRepository userRepository;
+    private final CartItemRepository cartItemRepository;
+    private final ShoppingCartRepository shoppingCartRepository;
+    private final ProductRepository productRepository;
+    private final ClinicRepository clinicRepository;
+    private final UserRepository userRepository;
+    private final ShoppingCartMapper shoppingCartMapper;
 
-    public CartService(CartItemRepository cartItemRepository, ShoppingCartRepository shoppingCartRepository, ProductRepository productRepository, ClinicRepository clinicRepository, UserRepository userRepository) {
-        this.cartItemRepository = cartItemRepository;
-        this.shoppingCartRepository = shoppingCartRepository;
-        this.productRepository = productRepository;
-        this.userRepository = userRepository;
-        this.clinicRepository = clinicRepository;
-    }
 
-    public ShoppingCart findShoppingCartByUserId(Integer userId) {
-        return shoppingCartRepository.findShoppingCartByUser_Id(userId.longValue());
+
+
+    public ShoppingCartDTO findShoppingCartByUserId(Integer userId) {
+        return shoppingCartMapper.shoppingCartToShoppingCartDTO(shoppingCartRepository.findShoppingCartByUser_Id(userId.longValue()));
     }
 
     public ShoppingCart saveCartItem(CartItemRequest cartItem) {

@@ -8,6 +8,7 @@ import com.example.ecommercebe.service.CategoryService;
 import com.example.ecommercebe.service.ProductService;
 import com.example.ecommercebe.entities.Product;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
@@ -32,13 +33,12 @@ import java.util.stream.Collectors;
 @CrossOrigin()
 @Valid
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/v1/products")
 public class ProductController {
-    @Autowired
-    private ProductService productService;
+    private final ProductService productService;
 
-    @Autowired
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
     @GetMapping()
     public Page<ProductDTO> getAllProducts(

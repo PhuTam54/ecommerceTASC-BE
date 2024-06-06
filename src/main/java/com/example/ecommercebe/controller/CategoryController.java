@@ -3,12 +3,11 @@ package com.example.ecommercebe.controller;
 import com.example.ecommercebe.entities.Category;
 import com.example.ecommercebe.dto.CategoryDTO;
 import com.example.ecommercebe.exception.CategoryNotFoundException;
-import com.example.ecommercebe.mapper.CategoryMapper;
 import com.example.ecommercebe.repositories.CategoryRepository;
 import com.example.ecommercebe.service.CategoryService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -16,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -24,14 +22,13 @@ import java.util.stream.Collectors;
 @Tag(name = "Category", description = "Category Controller")
 @CrossOrigin
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/v1/categories")
 public class CategoryController {
 
-    @Autowired
-    private CategoryService categoryService;
+    private final CategoryService categoryService;
 
-    @Autowired
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
     @GetMapping("/allcategory")
     public ResponseEntity<Page<CategoryDTO>> getAllCategory(@RequestParam(name = "page") int page, @RequestParam(name = "limit") int limit){

@@ -10,7 +10,7 @@ import com.example.ecommercebe.repositories.ClinicRepository;
 import com.example.ecommercebe.repositories.FeedbackRepository;
 import com.example.ecommercebe.repositories.ProductRepository;
 import com.example.ecommercebe.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -19,28 +19,20 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class FeedbackServiceImpl implements FeedbackService {
 
-    @Autowired
-    private FeedbackRepository feedbackRepository;
-
-    @Autowired
-    private FeedbackMapper feedbackMapper;
-
-    @Autowired
-    private ClinicRepository clinicRepository;
-
-    @Autowired
-    private ProductRepository productRepository;
-
-    @Autowired
-    private UserRepository userRepository;
+    private final FeedbackRepository feedbackRepository;
+    private final FeedbackMapper feedbackMapper;
+    private final ClinicRepository clinicRepository;
+    private final ProductRepository productRepository;
+    private final UserRepository userRepository;
 
 
     @Override
     public List<FeedbackDTO> getAllFeedbackByProductId(long productId) {
             Optional<Product> product = productRepository.findById(productId);
-            if(!product.isPresent()){
+            if(product.isEmpty()){
                 throw new RuntimeException("Không tìm thấy product");
             }
             List<Feedback> feedbackList = feedbackRepository.findByProduct(product.get());
@@ -52,7 +44,7 @@ public class FeedbackServiceImpl implements FeedbackService {
     @Override
     public List<FeedbackDTO> getAllFeedbackByClinicId(long clinicId) {
         Optional<Clinic> clinic = clinicRepository.findById(clinicId);
-        if(!clinic.isPresent()){
+        if(clinic.isEmpty()){
             throw new RuntimeException("Không tìm thấy clinic");
         }
         List<Feedback> feedbackList = feedbackRepository.findByClinic(clinic.get());
@@ -64,7 +56,7 @@ public class FeedbackServiceImpl implements FeedbackService {
     @Override
     public List<FeedbackDTO> getAllFeedbackByUserId(long userId) {
         Optional<User> user = userRepository.findById(userId);
-        if(!user.isPresent()){
+        if(user.isEmpty()){
             throw new RuntimeException("Không tìm thấy clinic");
         }
         List<Feedback> feedbackList = feedbackRepository.findByUser(user.get());
