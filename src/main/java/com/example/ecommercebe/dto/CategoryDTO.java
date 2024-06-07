@@ -1,5 +1,6 @@
 package com.example.ecommercebe.dto;
 
+import com.example.ecommercebe.entities.Category;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
@@ -20,16 +21,8 @@ public class CategoryDTO {
     @Nullable()
     private Integer parent_id;
     private Integer id;
-    private List<String> childrenNames;
-
-    public List<String> getChildrenNames() {
-        return childrenNames;
-    }
-
-    public void setChildrenNames(List<String> childrenNames) {
-        this.childrenNames = childrenNames;
-    }
-    public CategoryDTO(Integer id, String name, Integer parentId, List<String> childrenNames) {
+    private List<CategoryDTO> childrenNames;
+    public CategoryDTO(Integer id, String name, Integer parentId, List<CategoryDTO> childrenNames) {
         this.id = id;
         this.name = name;
         this.parent_id = parentId;

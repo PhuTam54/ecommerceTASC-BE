@@ -1,20 +1,16 @@
 package com.example.ecommercebe.service;
 
-import com.example.ecommercebe.dto.CategoryDTO;
 import com.example.ecommercebe.dto.ProductDTO;
 
 import com.example.ecommercebe.entities.Category;
-import com.example.ecommercebe.exception.CategoryNotFoundException;
 import com.example.ecommercebe.exception.NotFoundException;
-import com.example.ecommercebe.mapper.CategoryMapper;
 import com.example.ecommercebe.mapper.ProductMapper;
 import com.example.ecommercebe.repositories.CategoryRepository;
 import com.example.ecommercebe.repositories.ProductRepository;
 import com.example.ecommercebe.entities.Product;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.PageImpl;
 
@@ -24,14 +20,14 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
-    @Autowired
-    private ProductRepository productRepository;
 
-    @Autowired
-    private CategoryRepository categoryRepository;
-    @Autowired
-    private ProductMapper productMapper;
+    private final ProductRepository productRepository;
+
+    private final CategoryRepository categoryRepository;
+
+    private final ProductMapper productMapper;
 
     @Override
     public Page<ProductDTO> getAllProducts(Pageable pageable) {
@@ -44,9 +40,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<ProductDTO> getProductByName(Pageable pageable,String name) {
-       Page<ProductDTO> productDTO = productRepository.findByNameAndDeletedAtIsNull(pageable,name)
+       return productRepository.findByNameAndDeletedAtIsNull(pageable,name)
                .map(productMapper::toDTO);
-       return productDTO;
     }
 
     @Override
@@ -64,7 +59,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void updateProduct(long id, ProductDTO updatedProductDTO) {
         Optional<Product> existingProduct = productRepository.findById(id);
-        if (!existingProduct.isPresent()) {
+        if (existingProduct.isEmpty()) {
             throw new RuntimeException("Can not find product with id" + id);
         }
         if(updatedProductDTO.getPrice()!= null){
@@ -81,7 +76,7 @@ public class ProductServiceImpl implements ProductService {
         }
         if(updatedProductDTO.getCategoryId()!= null){
             Optional<Category> category = categoryRepository.findById(updatedProductDTO.getCategoryId());
-            if(!category.isPresent()){
+            if(category.isEmpty()){
                 throw new RuntimeException("Can not find category with id " + updatedProductDTO.getCategoryId());
             }
             existingProduct.get().setCategory(category.get());
@@ -109,8 +104,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<ProductDTO> getInTrash(Pageable pageable) {
         Page<Product> products = productRepository.findByDeletedAtIsNotNull(pageable);
-        Page<ProductDTO> productDTOs = products.map(productMapper::toDTO);
-        return productDTOs;
+        return products.map(productMapper::toDTO);
     }
 
 }

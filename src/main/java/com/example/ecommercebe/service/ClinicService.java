@@ -9,10 +9,12 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 
 public interface ClinicService {
-    Page<Clinic> getAllClinics(Pageable pageable);
-    Clinic getClinicById(long id);
-    Page<Clinic> getClinicByAddress (String address, Pageable pageable);
+    Page<ClinicDTO> getAllClinics(Pageable pageable);
+    ClinicDTO getClinicById(long id);
+    Page<ClinicDTO> getClinicByAddress (String address, Pageable pageable);
     void addClinic (ClinicDTO clinicDTO);
     void updateClinic (long id, ClinicDTO clinicDTO);
     void deleteClinic (long id);
+    void moveToTrash(long id);
+    Page<ClinicDTO> getInTrash(Pageable pageable);
 }

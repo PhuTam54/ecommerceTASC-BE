@@ -1,6 +1,7 @@
 package com.example.ecommercebe.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,10 +22,12 @@ public class CartItem {
     @OneToOne
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     @MapsId("productId")
+    @JsonIgnore
     private Product product;
     @OneToOne
     @JoinColumn(name = "clinic_id", referencedColumnName = "id")
     @MapsId("clinicId")
+    @JsonIgnore
     private Clinic clinic;
     @ManyToOne
     @MapsId("shoppingCartId")

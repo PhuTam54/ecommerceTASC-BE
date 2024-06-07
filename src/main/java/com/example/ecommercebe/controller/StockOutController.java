@@ -7,7 +7,7 @@ import com.example.ecommercebe.service.InStockService;
 import com.example.ecommercebe.service.StockOutService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -20,28 +20,26 @@ import java.util.stream.Collectors;
 @Tag(name = "Stock out", description = "Stock out Controller")
 @CrossOrigin
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/v1/stockOuts")
 public class StockOutController {
-
-    @Autowired
-    private StockOutService stockOutService;
-    @Autowired
-    private InStockService inStockService;
+    private final StockOutService stockOutService;
+    private final InStockService inStockService;
 
     @GetMapping("/product/{id}")
-    public ResponseEntity<List<StockOutDTO>> getAllStockOutByProduct(@PathVariable long productId) {
-        List<StockOutDTO> stockOutDTO = stockOutService.getAllStockOutByProductId(productId);
+    public ResponseEntity<List<StockOutDTO>> getAllStockOutByProduct(@PathVariable long id) {
+        List<StockOutDTO> stockOutDTO = stockOutService.getAllStockOutByProductId(id);
         if (stockOutDTO == null) {
-            throw new NotFoundException("Stock not found with ProductId: " + productId);
+            throw new NotFoundException("Stock not found with ProductId: " + id);
         }
         return ResponseEntity.ok(stockOutDTO);
     }
 
     @GetMapping("/clinic/{id}")
-    public ResponseEntity<List<StockOutDTO>> getAllStockOutByClinic(@PathVariable long clinicId) {
-        List<StockOutDTO> stockOutDTO = stockOutService.getAllStockOutByClinicId(clinicId);
+    public ResponseEntity<List<StockOutDTO>> getAllStockOutByClinic(@PathVariable long id) {
+        List<StockOutDTO> stockOutDTO = stockOutService.getAllStockOutByClinicId(id);
         if (stockOutDTO == null) {
-            throw new NotFoundException("Stock not found with ClinicId: " + clinicId);
+            throw new NotFoundException("Stock not found with ClinicId: " + id);
         }
         return ResponseEntity.ok(stockOutDTO);
     }

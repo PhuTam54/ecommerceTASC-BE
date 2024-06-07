@@ -7,7 +7,7 @@ import com.example.ecommercebe.service.InStockService;
 import com.example.ecommercebe.service.StockInService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -20,29 +20,28 @@ import java.util.stream.Collectors;
 @Tag(name = "Stock in", description = "Stock in Controller")
 @CrossOrigin
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/v1/stockIns")
 public class StockInController {
 
-    @Autowired
-    private StockInService stockInService;
+    private final StockInService stockInService;
 
-    @Autowired
-    private InStockService inStockService;
+    private final InStockService inStockService;
 
     @GetMapping("/product/{id}")
-    public ResponseEntity<List<StockInDTO>> getAllStockInByProduct(@PathVariable long productId) {
-        List<StockInDTO> stockInDTO = stockInService.getAllStockInByProductId(productId);
+    public ResponseEntity<List<StockInDTO>> getAllStockInByProduct(@PathVariable long id) {
+        List<StockInDTO> stockInDTO = stockInService.getAllStockInByProductId(id);
         if (stockInDTO == null) {
-            throw new NotFoundException("Stock not found with ProductId: " + productId);
+            throw new NotFoundException("Stock not found with ProductId: " + id);
         }
         return ResponseEntity.ok(stockInDTO);
     }
 
     @GetMapping("/clinic/{id}")
-    public ResponseEntity<List<StockInDTO>> getAllStockInByClinic(@PathVariable long clinicId) {
-        List<StockInDTO> stockInDTO = stockInService.getAllStockInByClinicId(clinicId);
+    public ResponseEntity<List<StockInDTO>> getAllStockInByClinic(@PathVariable long id) {
+        List<StockInDTO> stockInDTO = stockInService.getAllStockInByClinicId(id);
         if (stockInDTO == null) {
-            throw new NotFoundException("Stock not found with ClinicId: " + clinicId);
+            throw new NotFoundException("Stock not found with ClinicId: " + id);
         }
         return ResponseEntity.ok(stockInDTO);
     }

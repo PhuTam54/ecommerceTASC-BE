@@ -8,7 +8,7 @@ import com.example.ecommercebe.mapper.StockInMapper;
 import com.example.ecommercebe.repositories.ClinicRepository;
 import com.example.ecommercebe.repositories.ProductRepository;
 import com.example.ecommercebe.repositories.StockInRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,19 +16,20 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class StockInServiceImpl implements StockInService{
 
-    @Autowired
-    private StockInRepository stockInRepository;
 
-    @Autowired
-    private StockInMapper stockInMapper;
+    private final StockInRepository stockInRepository;
 
-    @Autowired
-    private ClinicRepository clinicRepository;
 
-    @Autowired
-    private ProductRepository productRepository;
+    private final StockInMapper stockInMapper;
+
+
+    private final ClinicRepository clinicRepository;
+
+
+    private final ProductRepository productRepository;
 
     @Override
     public List<StockInDTO> getAllStockInByProductId(long productId) {
@@ -60,22 +61,17 @@ public class StockInServiceImpl implements StockInService{
     @Override
     public List<StockInDTO> getAllStockInByProductIdAndClinicId(long productId, long clinicId) {
         Optional<Product> product = productRepository.findById(productId);
-        Product product1 ;
-        if(product.isPresent()) {
-            product1 = product.get();
-        } else throw new RuntimeException("Không tìm thấy InStock với product_id" + productId);
+        if(product.isEmpty()) {
+            throw new RuntimeException("Không tìm thấy InStock với product_id" + productId);
+        }
         Optional<Clinic> clinic = clinicRepository.findById(clinicId);
-        Clinic clinic1 ;
-        if(clinic.isPresent()) {
-            clinic1 = clinic.get();
-        } else throw new RuntimeException("Không tìm thấy InStock với clinic_id" + clinicId);
-
-        List<StockIn> stockIns = stockInRepository.findStockInByProductAndClinic(product1, clinic1);
+        if(clinic.isEmpty()) {
+            throw new RuntimeException("Không tìm thấy InStock với clinic_id" + clinicId);        }
+        List<StockIn> stockIns = stockInRepository.findStockInByProductAndClinic(product.get(), clinic.get());
         return stockIns.stream()
                 .map(stockInMapper::toDTO)
                 .collect(Collectors.toList());
     }
-
     @Override
     public void addStockIn(StockInDTO stockInDTO) {
         StockIn stockIn = stockInMapper.toEntity(stockInDTO);
@@ -88,7 +84,7 @@ public class StockInServiceImpl implements StockInService{
             StockIn stockIn1;
             if(stockIn.isPresent()) {
                 stockIn1 = stockIn.get();
-            } else throw new RuntimeException("Không tìm thấy InStock với id" + id);
+            } else throw new RuntimeException("Can not find InStock by id" + id);
             if(stockInDTO.getQuantity()!= 0){
                 stockIn1.setQuantity(stockInDTO.getQuantity());
             }
